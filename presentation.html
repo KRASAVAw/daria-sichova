@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>КВIТКАРНЯ</title>
-	<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZWUyYjViIiB2aWV3Qm94PSIwIDAgNDggNDgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTI0IDQ1LjgwOTZDMTkuNjg2NSA0NS44MDk2IDE1LjQ2OTggNDQuNTMwNSAxMS44ODMyIDQyLjEzNEM4LjI5NjY3IDM5LjczNzYgNS41MDEyOCAzNi4zMzE0IDMuODUwNTYgMzIuMzQ2MkMyLjE5OTg1IDI4LjM2MSAxLjc2Nzk0IDIzLjk3NTggMi42MDk0NyAxOS43NDUyQzMuNDUxIDE1LjUxNDUgNS41MjgxNiAxMS42Mjg0IDguNTc4MjkgOC41NzgzQzExLjYyODQgNS41MjgxNyAxNS41MTQ1IDMuNDUxMDEgMTkuNzQ1MiAyLjYwOTQ4QzIzLjk3NTggMS43Njc5NSAyOC4zNjEgMi4xOTk4NiAzMi4zNDYyIDMuODUwNTdDMzYuMzMxNCA1LjUwMTI5IDM5LjczNzYgOC4yOTY2OCA0Mi4xMzQgMTEuODgzM0M0NC41MzA1IDE1LjQ2OTggNDUuODA5NiAxOS42ODY1IDQ1LjgwOTYgMjRMMjQgMjRMMjQgNDUuODA5NloiPjwvcGF0aD48L3N2Zz4=">
+    <title>КВIТКАРНЯ - Презентація</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZWUyYjViIiB2aWV3Qm94PSIwIDAgNDggNDgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTI0IDQ1LjgwOTZDMTkuNjg2NSA0NS44MDk2IDE1LjQ2OTggNDQuNTMwNSAxMS44ODMyIDQyLjEzNEM4LjI5NjY3IDM5LjczNzYgNS41MDEyOCAzNi4zMzE0IDMuODUwNTYgMzIuMzQ2MkMyLjE5OTg1IDI4LjM2MSAxLjc2Nzk0IDIzLjk3NTggMi42MDk0NyAxOS43NDUyQzMuNDUxIDE1LjUxNDUgNS41MjgxNiAxMS42Mjg0IDguNTc4MjkgOC41NzgzQzExLjYyODQgNS41MjgxNyAxNS41MTQ1IDMuNDUxMDEgMTkuNzQ1MiAyLjYwOTQ4QzIzLjk3NTggMS43Njc5NSAyOC4zNjEgMi4xOTk4NiAzMi4zNDYyIDMuODUwNTdDMzYuMzMxNCA1LjUwMTI5IDM5LjczNzYgOC4yOTY2OCA0Mi4xMzQgMTEuODgzM0M0NC41MzA1IDE1LjQ2OTggNDUuODA5NiAxOS42ODY1IDQ1LjgwOTYgMjRMMjQgMjRMMjQgNDUuODA5NloiPjwvcGF0aD48L3N2Zz4=">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,100..900,100,1&family=Unbounded:wght@300;400;500;600&display=swap" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Unbounded:wght@200..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Unbounded:wght@200..900&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -45,10 +45,12 @@
         }
 
         .text-hero {
-            font-size: clamp(4rem, 10vw, 16rem);
+            /* Adjusted for mobile fit */
+            font-size: clamp(2rem, 10vw, 16rem);
             line-height: 0.9;
             letter-spacing: -0.04em;
             font-weight: 800;
+            word-break: break-word; /* Prevent overflow */
         }
 
         .text-label {
@@ -78,6 +80,12 @@
             width: 60px; height: 60px;
         }
 
+        /* Disable custom cursor on touch devices */
+        @media (hover: none) {
+            .custom-cursor { display: none; }
+            body { cursor: auto; }
+        }
+
         #webgl-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             z-index: -1; pointer-events: none; opacity: 0.8; 
@@ -93,8 +101,8 @@
 
         /* --- Buttons --- */
         .btn-mega {
-            font-size: clamp(2rem, 5vw, 4rem);
-            padding: 3rem 5rem;
+            font-size: clamp(1.5rem, 5vw, 4rem);
+            padding: 2rem 3rem;
             border-radius: 999px;
             border: 2px solid white;
             font-family: 'Unbounded', serif;
@@ -106,6 +114,7 @@
             cursor: pointer;
             position: relative;
             z-index: 20;
+            text-align: center;
         }
         .btn-mega:hover {
             background: white;
@@ -232,9 +241,80 @@
             clip-path: polygon(0 0, 104% 0, 100% 100%, 0% 100%);
         }
         
-        .footer-char {
-            display: inline-block;
-            transform: translateY(100%);
+        /* --- Mobile Overlay --- */
+        .mobile-menu-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: rgba(31, 5, 10, 0.98);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            z-index: 100;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+        }
+        .mobile-menu-overlay.active { opacity: 1; pointer-events: all; }
+        
+        .mobile-link {
+            font-family: 'Unbounded', serif;
+            font-size: 2rem;
+            color: white;
+            text-transform: uppercase;
+            margin: 1.5rem 0;
+            text-decoration: none;
+        }
+
+        /* --- Responsive Queries --- */
+        @media (max-width: 968px) {
+            /* Fix: Enable horizontal scroll snapping for Methodology on mobile */
+            #horizontal-scroll {
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                height: 100vh !important;
+                display: flex;
+            }
+            .horizontal-container {
+                width: 400vw !important; /* Force width for 4 panels */
+                flex-direction: row !important; /* Force horizontal */
+                height: 100% !important;
+                display: flex;
+            }
+            .h-panel {
+                width: 100vw !important;
+                height: 100vh !important;
+                scroll-snap-align: start;
+                border-right: 1px solid rgba(255,255,255,0.05); /* Keep border for separation */
+                flex-shrink: 0;
+            }
+            
+            /* Liquid Detail Adjustments for Mobile */
+            .liquid-detail {
+                position: relative;
+                top: auto !important;
+                bottom: auto !important;
+                left: auto !important;
+                right: auto !important;
+                margin: 10px auto;
+                opacity: 1 !important; /* Force visibility */
+                transform: none !important;
+                background: rgba(31, 5, 10, 0.5);
+                max-width: 90%;
+            }
+            .liquid-section {
+                flex-direction: column;
+                justify-content: center; /* Changed from flex-end to center */
+                padding-bottom: 0; /* Removed padding */
+            }
+            .liquid-word {
+                font-size: 15vw;
+            }
+            
+            /* Ensure text fits on small screens */
+            .text-hero { font-size: clamp(2rem, 10vw, 4rem); }
+            
+            .velocity-item { font-size: 10vw; }
+            
+            .cta-btn {
+                padding: 1.5rem 2rem;
+                font-size: 1.2rem;
+            }
         }
 
     </style>
@@ -245,9 +325,23 @@
     <div class="noise"></div>
     <div id="webgl-container"></div> 
     
-    <nav class="fixed top-0 w-full p-8 flex justify-between items-center z-50 mix-blend-difference text-white">
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <!-- Close Button -->
+        <button id="closeMenuBtn" class="absolute top-8 right-8 text-white p-2">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        
+        <a href="index.html" class="mobile-link">Головна</a>
+        <a href="ourstory.html" class="mobile-link">Історія</a>
+        <a href="routines.html" class="mobile-link">Ритуали</a>
+        <a href="journal.html" class="mobile-link">Журнал</a>
+        <a href="shop-all.html" class="mt-8 px-8 py-3 border border-white rounded-full text-white uppercase tracking-widest text-sm">Магазин</a>
+    </div>
+
+    <nav class="fixed top-0 w-full p-6 md:p-8 flex justify-between items-center z-50 mix-blend-difference text-white">
         <div class="flex flex-col">
-            <div class="text-3xl italic font-bold tracking-tighter"><a href="index.html">КВIТКАРНЯ</a></div>
+            <div class="text-2xl md:text-3xl italic font-bold tracking-tighter"><a href="index.html">КВIТКАРНЯ</a></div>
             <div class="text-[0.6rem] uppercase tracking-[0.3em] opacity-80 mt-1">Косметика • Лабораторія</div>
         </div>
         
@@ -256,7 +350,14 @@
             <a href="routines.html" class="hover:text-[#E63968] transition-colors">Ритуали</a>
             <a href="journal.html" class="hover:text-[#E63968] transition-colors">Журнал</a>
         </div>
-        <button class="w-10 h-10 border border-white rounded-full flex items-center justify-center hover:bg-white hover:text-black transition-colors">
+        
+        <!-- Mobile Menu Trigger -->
+        <button id="openMenuBtn" class="md:hidden w-10 h-10 flex flex-col justify-center gap-1.5 items-end">
+            <span class="block w-8 h-0.5 bg-white"></span>
+            <span class="block w-5 h-0.5 bg-white"></span>
+        </button>
+
+        <button class="hidden md:flex w-10 h-10 border border-white rounded-full items-center justify-center hover:bg-white hover:text-black transition-colors">
             <span class="sr-only">Кошик</span>0
         </button>
     </nav>
@@ -264,15 +365,16 @@
     <main>
         
         <section class="h-screen flex flex-col items-center justify-center relative overflow-hidden">
-            <div class="container mx-auto relative z-10 text-center pointer-events-none">
+            <div class="container mx-auto relative z-10 text-center pointer-events-none px-4">
                 <div class="overflow-hidden mb-4">
                     <span class="text-label text-[#E63968] tracking-[0.5em]">Косметична інженерія</span>
                 </div>
+                <!-- Updated Font Size logic in text-hero class -->
                 <h1 class="text-hero italic leading-none mix-blend-overlay">КВIТКАРНЯ</h1>
-                <h1 class="text-6xl md:text-8xl leading-none mt-2">КОСМЕТИКА</h1>
+                <h1 class="text-4xl md:text-6xl lg:text-8xl leading-none mt-2 font-bold break-words">КОСМЕТИКА</h1>
                 
                 <div class="mt-8 max-w-xl mx-auto">
-                    <p class="text-lg text-gray-300">
+                    <p class="text-base md:text-lg text-gray-300">
                         Шкіра, що відчуває себе безкомпромісно живою.
                         <br><span class="text-xs uppercase tracking-widest text-[#E63968] mt-4 block">Гортайте вниз</span>
                     </p>
@@ -296,57 +398,74 @@
             <div class="liquid-section sticky top-0 w-full h-screen overflow-hidden">
                 <div class="absolute inset-0 bg-radial-gradient from-transparent to-black opacity-0 liquid-bg transition-opacity duration-1000"></div>
                 
-                <h1 class="text-[10vw] absolute liquid-word word-top" style="top: 50%; transform: translate(0, -100%);">Дар'я</h1>
-                <h1 class="text-[10vw] absolute liquid-word word-bottom" style="top: 50%; transform: translate(0, 0%);">Сiчова</h1>
+                <h1 class="text-[15vw] md:text-[10vw] absolute liquid-word word-top" style="top: 50%; transform: translate(0, -100%);">Дар'я</h1>
+                <h1 class="text-[15vw] md:text-[10vw] absolute liquid-word word-bottom" style="top: 50%; transform: translate(0, 0%);">Сiчова</h1>
 
                 <div id="bottle-3d" 
                      class="liquid-bottle opacity-0 absolute w-full h-full flex items-center justify-center z-10"
-                     style="bottom: -20%;">
+                     style="top: 0;">
                 </div>
-                <div class="liquid-detail detail-1 left-[4%] top-[40%]">
+                
+                <!-- Details - Relative on Mobile, Absolute on Desktop -->
+                <div class="hidden md:block liquid-detail detail-1 left-[4%] top-[40%]">
                     <span class="text-xs uppercase text-[#E63968] tracking-widest font-bold">Зволоження</span>
                     <h4 class="text-3xl   mt-2 text-white">Гіалуронова хвиля</h4>
                     <p class="text-sm text-gray-300 mt-2 leading-relaxed">Мультимолекулярна вага проникає глибоко для миттєвого наповнення.</p>
                 </div>
 
-                <div class="liquid-detail detail-2 right-[4%] bottom-[30%] text-right">
+                <div class="hidden md:block liquid-detail detail-2 right-[4%] bottom-[30%] text-right">
                     <span class="text-xs uppercase text-[#E63968] tracking-widest font-bold">Текстура</span>
                     <h4 class="text-3xl   mt-2 text-white">Скляний фініш</h4>
                     <p class="text-sm text-gray-300 mt-2 leading-relaxed">Миттєве розгладження та блюр-ефект без використання силіконів.</p>
                 </div>
+                
+                <!-- Mobile Only Details (Static) - Added Second Banner -->
+                <div class="md:hidden absolute bottom-24 left-0 w-full px-4 flex flex-col gap-4 z-20">
+                     <div class="bg-black/60 backdrop-blur-md p-4 rounded-xl border border-white/10">
+                        <span class="text-[0.6rem] uppercase text-[#E63968] tracking-widest font-bold">Зволоження</span>
+                        <h4 class="text-xl   text-white">Гіалуронова хвиля</h4>
+                     </div>
+                     <div class="bg-black/60 backdrop-blur-md p-4 rounded-xl border border-white/10 text-right">
+                        <span class="text-[0.6rem] uppercase text-[#E63968] tracking-widest font-bold">Текстура</span>
+                        <h4 class="text-xl   text-white">Скляний фініш</h4>
+                     </div>
+                </div>
             </div>
         </section>
 
-        <section id="horizontal-scroll" class="h-screen overflow-hidden relative">
+        <!-- Horizontal Scroll Section -->
+        <section id="horizontal-scroll" class="md:h-screen md:overflow-hidden relative">
             <div class="horizontal-container">
-                <div class="h-panel flex-col items-start pl-20" style="background: var(--c-dark);">
+                <div class="h-panel flex-col items-start px-8 md:pl-20" style="background: var(--c-dark);">
                     <span class="text-label text-[#E63968] mb-6">Методологія</span>
-                    <h2 class="text-8xl   max-w-4xl">Три кроки.<br>Жодних складнощів.</h2>
-                    <div class="mt-12 flex gap-4 text-gray-500"><span class="animate-pulse">Гортайте вправо</span> &rarr;</div>
+                    <h2 class="text-4xl md:text-8xl   max-w-4xl">Три кроки.<br>Жодних складнощів.</h2>
+                    <div class="mt-12 hidden md:flex gap-4 text-gray-500"><span class="animate-pulse">Гортайте вправо</span> &rarr;</div>
+                    <!-- Updated Mobile Hint -->
+                    <div class="mt-8 md:hidden text-gray-500 text-sm animate-pulse">← Гортайте вправо →</div>
                 </div>
                 
                 <div class="h-panel relative">
                     <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1556228720-198751642f4b?q=80&w=2787&auto=format&fit=crop')] bg-cover opacity-40 mix-blend-overlay"></div>
-                    <div class="relative z-10 text-center">
-                        <div class="text-[20rem]   leading-none opacity-20 text-white mix-blend-overlay absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">01</div>
-                        <h3 class="text-6xl   mb-4">Підготовка</h3>
-                        <p class="max-w-md text-xl">Очищення без стягнутості.</p>
+                    <div class="relative z-10 text-center px-4">
+                        <div class="text-[10rem] md:text-[20rem]   leading-none opacity-20 text-white mix-blend-overlay absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">01</div>
+                        <h3 class="text-4xl md:text-6xl   mb-4">Підготовка</h3>
+                        <p class="max-w-md text-lg md:text-xl mx-auto">Очищення без стягнутості.</p>
                     </div>
                 </div>
                 <div class="h-panel relative" style="background: #250810;">
                     <div class="absolute inset-0 bg-[url('https://www.tellurideglow.com/cdn/shop/articles/Skin_flooding_1_600x338.jpg')] bg-cover opacity-40 mix-blend-overlay"></div>
-                    <div class="relative z-10 text-center">
-                         <div class="text-[20rem]   leading-none opacity-20 text-white mix-blend-overlay absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">02</div>
-                        <h3 class="text-6xl   mb-4">Догляд</h3>
-                        <p class="max-w-md text-xl">Глибоке зволоження.</p>
+                    <div class="relative z-10 text-center px-4">
+                         <div class="text-[10rem] md:text-[20rem]   leading-none opacity-20 text-white mix-blend-overlay absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">02</div>
+                        <h3 class="text-4xl md:text-6xl   mb-4">Догляд</h3>
+                        <p class="max-w-md text-lg md:text-xl mx-auto">Глибоке зволоження.</p>
                     </div>
                 </div>
                 <div class="h-panel relative">
                     <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1556228720-198751642f4b?q=80&w=2787&auto=format&fit=crop')] bg-cover opacity-40 mix-blend-overlay"></div>
-                    <div class="relative z-10 text-center">
-                        <div class="text-[20rem]   leading-none opacity-20 text-white mix-blend-overlay absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">03</div>
-                        <h3 class="text-6xl   mb-4">Захист</h3>
-                        <p class="max-w-md text-xl">Зафіксуйте результат.</p>
+                    <div class="relative z-10 text-center px-4">
+                        <div class="text-[10rem] md:text-[20rem]   leading-none opacity-20 text-white mix-blend-overlay absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">03</div>
+                        <h3 class="text-4xl md:text-6xl   mb-4">Захист</h3>
+                        <p class="max-w-md text-lg md:text-xl mx-auto">Зафіксуйте результат.</p>
                     </div>
                 </div>
             </div>
@@ -356,28 +475,28 @@
             <div class="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
                 <div>
                     <span class="text-label text-[#E63968]">Формула</span>
-                    <h2 class="text-6xl   mt-4 mb-8">Клінічно лагідна.</h2>
+                    <h2 class="text-4xl md:text-6xl   mt-4 mb-8">Клінічно лагідна.</h2>
                     <p class="text-gray-400 text-lg max-w-md">Кожен елемент обрано за його біосумісність та ефективність.</p>
                 </div>
                 <div class="relative" id="alchemy-list">
-                    <div class="absolute inset-0 z-0 overflow-hidden rounded-lg opacity-40">
+                    <div class="absolute inset-0 z-0 overflow-hidden rounded-lg opacity-40 pointer-events-none md:pointer-events-auto">
                          <img id="alchemy-bg-img" src="https://images.unsplash.com/photo-1629198688000-71f23e745b6e?q=80&w=2880&auto=format&fit=crop" class="w-full h-full object-cover opacity-0 transition-opacity duration-500">
                     </div>
                     <div class="relative z-10">
                         <div class="alchemy-item group" data-img="https://images.unsplash.com/photo-1629198688000-71f23e745b6e?q=80&w=2880&auto=format&fit=crop">
                             <span class="alchemy-num text-gray-600 font-mono text-sm group-hover:text-[#E63968] transition-colors">01</span>
-                            <h3 class="text-4xl   ml-4 inline-block group-hover:translate-x-4 transition-transform">Ніацинамід</h3>
-                            <p class="text-white-500 mt-2 ml-10 text-sm max-w-xs opacity-0 group-hover:opacity-100 transition-opacity">Заспокоює почервоніння.</p>
+                            <h3 class="text-2xl md:text-4xl   ml-4 inline-block group-hover:translate-x-4 transition-transform">Ніацинамід</h3>
+                            <p class="text-white-500 mt-2 ml-10 text-sm max-w-xs opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">Заспокоює почервоніння.</p>
                         </div>
                         <div class="alchemy-item group" data-img="https://mimishop.com.ua/image/cache/data/Purito/Purito_PlainetSqualaneOil1001-800x800.jpg">
                             <span class="alchemy-num text-gray-600 font-mono text-sm group-hover:text-[#E63968] transition-colors">02</span>
-                            <h3 class="text-4xl   ml-4 inline-block group-hover:translate-x-4 transition-transform">Сквалан</h3>
-                            <p class="text-white-500 mt-2 ml-10 text-sm max-w-xs opacity-0 group-hover:opacity-100 transition-opacity">Невагоме зволоження.</p>
+                            <h3 class="text-2xl md:text-4xl   ml-4 inline-block group-hover:translate-x-4 transition-transform">Сквалан</h3>
+                            <p class="text-white-500 mt-2 ml-10 text-sm max-w-xs opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">Невагоме зволоження.</p>
                         </div>
                         <div class="alchemy-item group" data-img="https://primaryskin.co/cdn/shop/files/IMG_2609.jpg?v=1728202528&width=1200">
                             <span class="alchemy-num text-gray-600 font-mono text-sm group-hover:text-[#E63968] transition-colors">03</span>
-                            <h3 class="text-4xl   ml-4 inline-block group-hover:translate-x-4 transition-transform">Кераміди</h3>
-                            <p class="text-white-500 mt-2 ml-10 text-sm max-w-xs opacity-0 group-hover:opacity-100 transition-opacity">Відновлюють бар'єр.</p>
+                            <h3 class="text-2xl md:text-4xl   ml-4 inline-block group-hover:translate-x-4 transition-transform">Кераміди</h3>
+                            <p class="text-white-500 mt-2 ml-10 text-sm max-w-xs opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">Відновлюють бар'єр.</p>
                         </div>
                     </div>
                 </div>
@@ -385,12 +504,12 @@
         </section>
 
         <section class="section-padding bg-[#0f0205]">
-            <div class="text-center mb-24 relative">
+            <div class="text-center mb-12 md:mb-24 relative">
                 <div class="overflow-hidden">
-                    <h2 class="text-7xl md:text-9xl   text-white reveal-on-scroll">СПІЛЬНОТА</h2>
+                    <h2 class="text-5xl md:text-9xl   text-white reveal-on-scroll">СПІЛЬНОТА</h2>
                 </div>
                 <div class="overflow-hidden">
-                    <h2 class="text-7xl md:text-9xl   text-[#E63968] italic reveal-on-scroll">СЯЙВА.</h2>
+                    <h2 class="text-5xl md:text-9xl   text-[#E63968] italic reveal-on-scroll">СЯЙВА.</h2>
                 </div>
                 <p class="mt-6 text-gray-500 uppercase tracking-widest text-sm">Приєднуйтесь до 50,000+ інших @DariaTop</p>
             </div>
@@ -402,7 +521,7 @@
                     
                     <div class="w-full aspect-square bg-[#1a050b] border border-white/10 p-8 flex flex-col justify-center items-center text-center rounded-sm hover:border-[#E63968] transition-colors duration-500 group">
                         <div class="text-[#E63968] text-xs tracking-[0.3em] mb-4 opacity-70 group-hover:opacity-100">★★★★★</div>
-                        <p class="  text-xl italic text-gray-200 leading-relaxed">
+                        <p class="  text-lg md:text-xl italic text-gray-200 leading-relaxed">
                             "Моя шкіра ніколи не виглядала такою наповненою. Це справжня магія."
                         </p>
                         <span class="mt-6 text-[0.6rem] uppercase tracking-widest text-gray-500">— Олена К.</span>
@@ -411,7 +530,7 @@
 
                 <div class="space-y-8 parallax-col" data-speed="0.5">
                      <div class="w-full aspect-[3/4] bg-[#250810] border border-white/10 p-10 flex flex-col justify-center items-center text-center rounded-sm hover:bg-[#2d0a14] transition-colors duration-500">
-                         <p class="  text-3xl md:text-4xl italic text-white leading-tight">
+                         <p class="  text-2xl md:text-4xl italic text-white leading-tight">
                              "Єдиний догляд за шкірою, яким я справді з нетерпінням хочу користуватися."
                          </p>
                          <span class="mt-8 text-xs uppercase tracking-widest text-[#E63968] font-bold">— Vogue UA</span>
@@ -425,7 +544,7 @@
                     
                     <div class="w-full aspect-[4/5] bg-[#1a050b] border border-white/10 p-8 flex flex-col justify-center items-center text-center rounded-sm hover:border-[#E63968] transition-colors duration-500 group">
                         <div class="text-[#E63968] text-xs tracking-[0.3em] mb-4 opacity-70 group-hover:opacity-100">★★★★★</div>
-                        <p class="  text-xl italic text-gray-200 leading-relaxed">
+                        <p class="  text-lg md:text-xl italic text-gray-200 leading-relaxed">
                             "Текстура просто космос. Вбирається миттєво і не залишає плівки."
                         </p>
                         <span class="mt-6 text-[0.6rem] uppercase tracking-widest text-gray-500">— Даша М.</span>
@@ -435,20 +554,20 @@
             </div>
         </section>
 
-        <section class="min-h-[80vh] flex flex-col items-center justify-center relative overflow-hidden" id="mega-cta-section" style="background: #E63968;">
+        <section class="min-h-[80vh] flex flex-col items-center justify-center relative overflow-hidden text-center px-4" id="mega-cta-section" style="background: #E63968;">
             <canvas id="cta-canvas"></canvas> 
             
-            <p class="cta-text text-white mb-8 text-sm uppercase tracking-[0.3em] font-bold relative z-20">Ваша найкраща шкіра чекає</p>
+            <p class="cta-text text-white mb-8 text-xs md:text-sm uppercase tracking-[0.3em] font-bold relative z-20">Ваша найкраща шкіра чекає</p>
             
             <a href="shop-all.html" class="btn-mega cta-btn">
                 Купити колекцію
             </a>
             
-            <div class="mt-12 flex gap-8 text-white/60 text-sm font-medium tracking-wide relative z-20">
+            <div class="mt-12 flex flex-wrap justify-center gap-4 md:gap-8 text-white/60 text-xs md:text-sm font-medium tracking-wide relative z-20">
                 <span class="stagger-in">Безкоштовна доставка</span>
-                <span class="stagger-in">•</span>
+                <span class="stagger-in hidden md:inline">•</span>
                 <span class="stagger-in">30 днів на повернення</span>
-                <span class="stagger-in">•</span>
+                <span class="stagger-in hidden md:inline">•</span>
                 <span class="stagger-in">Кохана</span>
             </div>
         </section>
@@ -476,17 +595,15 @@
 </div>
 
                 <!-- Footer Main Title -->
-                <!-- <div class="footer-reveal-text text-center overflow-hidden"> -->
-				
                 <div class="footer-reveal-text text-center">
-                    <h2 class="text-[10vw]   italic leading-[0.85] text-white opacity-90 cursor-default" id="footer-title">
+                    <h2 class="text-[12vw] md:text-[10vw]   italic leading-[0.85] text-white opacity-90 cursor-default" id="footer-title">
                         <a href="index.html">КВIТКАРНЯ</a>
                     </h2>
                 </div>
 
-                <div class="flex flex-col md:flex-row justify-between items-center w-full text-[0.6rem] uppercase tracking-widest text-white/50 border-t border-white/10 pt-8 mt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center w-full text-[0.6rem] uppercase tracking-widest text-white/50 border-t border-white/10 pt-8 mt-8 pb-8 md:pb-0 text-center md:text-left gap-4 md:gap-0">
                     <span>© 2025 Квiткарня</span>
-                    <span class="my-4 md:my-0">Зроблено в Україні</span>
+                    <span>Зроблено в Україні</span>
                     <span>Дизайн: Дар'я</span>
                 </div>
             </div>
@@ -495,6 +612,21 @@
     </main>
 
     <script>
+        // --- Mobile Menu Logic ---
+        const mobileMenu = document.getElementById('mobileMenu');
+        const openMenuBtn = document.getElementById('openMenuBtn');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        }
+
+        openMenuBtn.addEventListener('click', toggleMenu);
+        closeMenuBtn.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
         gsap.registerPlugin(ScrollTrigger);
 
         const initLenis = () => {
@@ -598,8 +730,10 @@
                 flyingObj.rotation.x += 0.005;
                 flyingObj.rotation.y += 0.005;
 
-                camera.position.x += (mouseX * 2 - camera.position.x) * 0.02;
-                camera.position.y += (-mouseY * 2 - camera.position.y) * 0.02;
+                // Tone down camera movement on mobile
+                const moveFactor = window.innerWidth < 768 ? 0.5 : 2;
+                camera.position.x += (mouseX * moveFactor - camera.position.x) * 0.02;
+                camera.position.y += (-mouseY * moveFactor - camera.position.y) * 0.02;
                 camera.lookAt(scene.position);
 
                 renderer.render(scene, camera);
@@ -646,7 +780,6 @@
                     uniform vec3 uColor3;
                     varying vec2 vUv;
 
-                    // Simplex noise inspired function
                     vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
                     vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
                     vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
@@ -677,24 +810,13 @@
 
                     void main() {
                         vec2 uv = vUv;
-                        
-                        // Domain warping
                         float noise1 = snoise(uv * 3.0 + uTime * 0.2);
                         float noise2 = snoise(uv * 5.0 - uTime * 0.3 + noise1);
-                        
-                        vec2 flow = vec2(noise1, noise2);
-                        
-                        // Mix colors based on noise
                         vec3 color = mix(uColor1, uColor2, smoothstep(-0.5, 0.5, noise1));
-                        
-                        // Add accent veins
                         float vein = smoothstep(0.4, 0.5, abs(noise2));
                         color = mix(color, uColor3, (1.0 - vein) * 0.4);
-                        
-                        // Darken edges slightly (vignette)
                         float dist = distance(uv, vec2(0.5));
                         color *= 1.0 - dist * 0.5;
-
                         gl_FragColor = vec4(color, 1.0);
                     }
                 `
@@ -712,7 +834,6 @@
             };
             animate();
 
-            // Handle Resize
             const handleResize = () => {
                 const width = container.offsetWidth;
                 const height = container.offsetHeight;
@@ -720,9 +841,8 @@
             };
             window.addEventListener('resize', handleResize);
             
-            // Footer Parallax Animation (GSAP)
             gsap.to('#footer-webgl-container', {
-                yPercent: 20, // Moves the background slightly down as you scroll
+                yPercent: 20, 
                 ease: "none",
                 scrollTrigger: {
                     trigger: "#new-footer",
@@ -732,7 +852,6 @@
                 }
             });
             
-            // Text reveal
             const titleChars = document.getElementById('footer-title');
             gsap.from(titleChars, {
                 yPercent: 100,
@@ -872,6 +991,7 @@
                 }
             });
 
+            // Liquid Animation
             const liquidTl = gsap.timeline({
                 scrollTrigger: { trigger: "#liquid-trigger", start: "top top", end: "bottom bottom", scrub: 1, pin: ".liquid-section" }
             });
@@ -885,6 +1005,7 @@
 
             // --- 3. HORIZONTAL SCROLL ---
             const sections = gsap.utils.toArray('.h-panel');
+            // Only apply horizontal scroll logic on larger screens
             if(window.innerWidth > 768) {
                 gsap.to(sections, {
                     xPercent: -100 * (sections.length - 1),
@@ -905,10 +1026,12 @@
             });
 
             // Parallax Columns
-            gsap.utils.toArray('.parallax-col').forEach(col => {
-                const speed = col.getAttribute('data-speed');
-                gsap.to(col, { y: -100 * speed, scrollTrigger: { trigger: col, start: "top bottom", end: "bottom top", scrub: true } });
-            });
+            if (window.innerWidth > 768) {
+                gsap.utils.toArray('.parallax-col').forEach(col => {
+                    const speed = col.getAttribute('data-speed');
+                    gsap.to(col, { y: -100 * speed, scrollTrigger: { trigger: col, start: "top bottom", end: "bottom top", scrub: true } });
+                });
+            }
             
             // Text Reveal
             gsap.utils.toArray('.reveal-on-scroll').forEach(text => {
@@ -1062,7 +1185,9 @@
             bottleGroup.add(capMesh);
             bottleGroup.add(sealMesh);
 
-            bottleGroup.scale.set(0.7, 0.7, 0.7); 
+            // Scale down slightly on mobile
+            const scale = window.innerWidth < 768 ? 0.55 : 0.7;
+            bottleGroup.scale.set(scale, scale, scale); 
             bottleGroup.rotation.x = 0.1; 
             bottleGroup.rotation.z = 0.05;
 
@@ -1100,7 +1225,7 @@
             }
 
             let time = 0;
-            const yOffset = 0.9; 
+            const yOffset = -1; 
             const animate = () => {
                 requestAnimationFrame(animate);
                 time += 0.005;
@@ -1115,6 +1240,10 @@
                 camera.aspect = width / height;
                 camera.updateProjectionMatrix();
                 renderer.setSize(width, height);
+                
+                // Adjust scale dynamically on resize
+                const newScale = window.innerWidth < 768 ? 0.55 : 0.7;
+                bottleGroup.scale.set(newScale, newScale, newScale);
             });
         };	
 		
