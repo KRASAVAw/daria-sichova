@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Our Story - Квiткарня</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:opsz,wght,SOFT,WONK@9..144,100..900,100,1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Unbounded:wght@200..900&display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#ee2b5b",
+              "background-light": "#f8f6f6",
+              "background-dark": "#221015",
+            },
+            fontFamily: {
+              "display": ["Unbounded"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+      }
+	  
+	  :root {
+            /* Palette - Bold, Editorial Pink */
+            --c-bg-light: #FFF0F3;
+            --c-bg-dark: #FFDEE6;
+            --c-plum-dark: #3D0D1F; /* Text Primary */
+            --c-plum-light: #5C2A3B; /* Text Secondary */
+            --c-raspberry: #D62F58; /* Accent/CTA */
+            --c-raspberry-hover: #B01E40;
+            --c-blush: #FFC2CF;
+            --c-white: #FFFFFF;
+            
+            /* Dimensions & Spacing */
+            --nav-height: 80px;
+            --container-width: 1280px;
+            --border-radius-pill: 100px;
+            
+            /* Easing */
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Unbounded', sans-serif;
+            background-color: var(--c-bg-light);
+            color: var(--c-plum-dark);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- Global Utilities --- */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius-pill);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            letter-spacing: 0.02em;
+            transition: all 0.4s var(--ease-out-expo);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Noise Texture Overlay */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* --- Header --- */
+        header {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            z-index: 100;
+            /* Glassmorphism */
+            background: rgba(255, 240, 243, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(214, 47, 88, 0.08);
+            transition: transform 0.3s ease;
+			font-family: Unbounded;
+        }
+
+        .nav-wrapper {
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Unbounded', serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            /* Font Variation Settings for personality */
+            font-variation-settings: "SOFT" 100, "WONK" 1;
+            text-transform: uppercase;
+            color: var(--c-plum-dark);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--c-plum-light);
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--c-raspberry);
+        }
+
+        /* Nav Underline Animation */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--c-raspberry);
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.4s var(--ease-out-expo);
+        }
+
+        .nav-link:hover::after {
+            transform: scaleX(1);
+        }
+
+        .btn-shop {
+            background-color: var(--c-raspberry);
+            color: var(--c-white);
+            padding: 0.75rem 1.75rem;
+            box-shadow: 0 4px 15px rgba(214, 47, 88, 0.2);
+        }
+
+        .btn-shop:hover {
+            transform: scale(1.05);
+            background-color: var(--c-raspberry-hover);
+            box-shadow: 0 6px 20px rgba(214, 47, 88, 0.3);
+        }
+		
+		.nav-left {
+    display: flex;
+    gap: 0.75rem; /* Уменьшили отступ между лого и текстом (было 1rem) */
+    align-items: center;
+}
+
+
+.logo-icon {
+    width: 40px;   /* Оптимальный размер логотипа */
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* Запрещает логотипу сжиматься на телефонах */
+}
+
+
+.logo-icon svg {
+    width: 100%;  /* Растягиваем SVG на весь контейнер 40x40 */
+    height: 100%;
+    object-fit: contain;
+}
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-[#181113] dark:text-gray-200">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- TopNavBar -->
+<div class="noise-overlay"></div>
+
+    <header>
+        <div class="container nav-wrapper">
+<div class="nav-left">
+    <div class="logo-icon text-primary">
+        <svg fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <path d="M24 45.8096C19.6865 45.8096 15.4698 44.5305 11.8832 42.134C8.29667 39.7376 5.50128 36.3314 3.85056 32.3462C2.19985 28.361 1.76794 23.9758 2.60947 19.7452C3.451 15.5145 5.52816 11.6284 8.57829 8.5783C11.6284 5.52817 15.5145 3.45101 19.7452 2.60948C23.9758 1.76795 28.361 2.19986 32.3462 3.85057C36.3314 5.50129 39.7376 8.29668 42.134 11.8833C44.5305 15.4698 45.8096 19.6865 45.8096 24L24 24L24 45.8096Z"></path>
+        </svg>
+    </div>
+    <a href="index.html" class="logo">Квiткарня</a>
+</div>
+            
+            <nav class="nav-right">
+                <ul class="nav-links">
+                    <li><a href="ourstory.html" class="nav-link">Our Story</a></li>
+                    <li><a href="routines.html" class="nav-link">Routines</a></li>
+                    <li><a href="journal.html" class="nav-link">Journal</a></li>
+                </ul>
+                <a href="shop-all.html" class="btn btn-shop">Shop Now</a>
+                
+                <div class="mobile-menu-btn d-lg-none" style="display:none;">
+                    <span></span><span></span><span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+<main class="flex-1">
+<div class="px-4 sm:px-10 lg:px-20 xl:px-40 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+<!-- HeroSection -->
+<div class="@container">
+<div class="@[480px]:p-4">
+<div class="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat @[480px]:gap-8 @[480px]:rounded-xl items-center justify-center p-4" data-alt="A serene, minimalist composition of smooth river stones and a single green leaf on a soft pink background" style='background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuBe3BgvSRTimcm43sxojPTz6rdRD2FiMD0c71uzxv84COzQo15cfIthJ4C5ScLZXj8RQczSJPIuaDVpkpkcKChGCimbSi5QTV4eXS8j5yRqN-e3zdEja9agp4yxWNGS_zCbLVL-xEOF_0K8shj7Jas6PzCfWqn3rz1cFLYpqh7VTBwu6KkIXk0AFAYZshnouHKxdPpnQu3N1qCoqvhQjUxMHzVwvUnsiRPCTZlHxpoDLVxevd2a39NfayxOAIRRRNev_vuSE2273rs");'>
+<div class="flex flex-col gap-2 text-center">
+<h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em]">Rooted in Nature, Crafted for You.</h1>
+<h2 class="text-white text-sm font-normal leading-normal @[480px]:text-base @[480px]:font-normal @[480px]:leading-normal">Discover the story behind Квiткарня and our commitment to clean, sustainable skincare.</h2>
+</div>
+</div>
+</div>
+</div>
+<!-- Introduction Section -->
+<div class="py-16 px-4">
+<h2 class="text-[#181113] dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pb-3 pt-5 text-center">The Квiткарня Philosophy</h2>
+<p class="text-[#181113] dark:text-gray-300 text-base font-normal leading-normal text-center max-w-3xl mx-auto">It all started with a simple idea: skincare should be as pure and honest as the nature it comes from. At Квiткарня, we believe in the power of botanicals and the importance of sustainability. We are dedicated to creating effective, clean formulas that are kind to your skin and the planet.</p>
+</div>
+<!-- Alternating Image & Text Section -->
+<div class="flex flex-col gap-16 md:gap-24 py-10">
+<div class="flex flex-col md:flex-row items-center gap-8 md:gap-12 px-4">
+<div class="w-full md:w-1/2">
+<img class="rounded-xl object-cover aspect-square w-full" data-alt="A close-up shot of a woman's hands gently holding a small glass bottle of serum, with soft natural light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkkit7ecs666Zf7iTjgsHWvp_sT3j4OCN41LOHV4cbGkdZJNVJmJhvkQngVrMCSHP5muhcyQt3TBhzrDtmiOWJeVqnxjmyKdlnJW5yA0y8OfzNiGL8NDs2um0Bvl4J4Kro0SrrPq-ajMVd5CKBJt8vKJw1C1KI04Cyi48SbTlKXOGrRuS3W6tlTQJLNr4jUCx5VSlA80eDQBNjFUjBjboOGmGBTIsSQrXC1NLAp_aMY4Sgp8xafIp2Dcou7-buoVNHrjeihzNtkvE"/>
+</div>
+<div class="w-full md:w-1/2">
+<h3 class="text-2xl font-bold mb-4 text-[#181113] dark:text-white">Our Mission &amp; Vision</h3>
+<p class="text-[#181113] dark:text-gray-300">Our mission is to create skincare that's not only effective but also transparent and ethical. We envision a world where beauty routines are a source of self-care, not compromise. We're committed to pushing the boundaries of clean beauty, ensuring every product we offer nurtures your skin and respects our planet.</p>
+</div>
+</div>
+<div class="flex flex-col md:flex-row-reverse items-center gap-8 md:gap-12 px-4">
+<div class="w-full md:w-1/2">
+<img class="rounded-xl object-cover aspect-square w-full" data-alt="A portrait of a smiling woman with clear, glowing skin, looking warmly at the camera. The background is a soft, out-of-focus natural setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDW_yNXWVkC5inWP9zac46mVSY0XEveH--BWNP7DBf4nUg8r0vj6k3b-tCFNo4LQXyM-fvp_v6x9jJRFaxYb3yTcnFGrpGetM-rK3IGQsG8OKJJuUe_rtcIv78-YeLU4azkZtY1aQ68OtAgjlfY8xJOvTaqcFfC_rmkmXeM0KGBLSSkY0Sz-pfJ0fhO3_gI_YG2_OqCr2s9x3iZXDQ-cHdQkcFmBT3hQhLQTjJ_mx482xJkhutTkNTXLW2MQXcwN6HT0sCHKJQfcDU"/>
+</div>
+<div class="w-full md:w-1/2">
+<h3 class="text-2xl font-bold mb-4 text-[#181113] dark:text-white">The Founder's Story</h3>
+<p class="text-[#181113] dark:text-gray-300">"I founded Квiткарня out of a personal quest for skincare I could trust. Frustrated with complex ingredient lists and empty promises, I turned to nature for answers. My passion is to share the power of pure, potent botanicals with you, creating products that bring confidence and radiance to your daily life."</p>
+<p class="mt-4 font-bold text-[#181113] dark:text-white">– Jane Doe, Founder</p>
+</div>
+</div>
+</div>
+<!-- FeatureSection / Core Values -->
+<div class="flex flex-col gap-10 px-4 py-16 @container bg-primary/5 dark:bg-primary/10 rounded-xl my-10">
+<div class="flex flex-col gap-4 text-center">
+<h1 class="text-[#181113] dark:text-white tracking-light text-[32px] font-bold leading-tight @[480px]:text-4xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em] max-w-[720px] mx-auto">Our Core Values</h1>
+<p class="text-[#181113] dark:text-gray-300 text-base font-normal leading-normal max-w-[720px] mx-auto">Our philosophy is built on a foundation of unwavering principles that guide every decision we make, from sourcing ingredients to packaging our products.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-0">
+<div class="flex flex-1 gap-3 rounded-lg border border-primary/20 dark:border-primary/30 bg-background-light dark:bg-background-dark p-4 flex-col">
+<span class="material-symbols-outlined text-primary text-3xl">spa</span>
+<div class="flex flex-col gap-1">
+<h2 class="text-[#181113] dark:text-white text-base font-bold leading-tight">Clean Ingredients</h2>
+<p class="text-[#89616b] dark:text-gray-400 text-sm font-normal leading-normal">We use only the highest quality, non-toxic ingredients, ensuring every product is safe and gentle for your skin.</p>
+</div>
+</div>
+<div class="flex flex-1 gap-3 rounded-lg border border-primary/20 dark:border-primary/30 bg-background-light dark:bg-background-dark p-4 flex-col">
+<span class="material-symbols-outlined text-primary text-3xl">eco</span>
+<div class="flex flex-col gap-1">
+<h2 class="text-[#181113] dark:text-white text-base font-bold leading-tight">Sustainable Sourcing</h2>
+<p class="text-[#89616b] dark:text-gray-400 text-sm font-normal leading-normal">Our commitment to the planet means we partner with suppliers who practice ethical and sustainable harvesting.</p>
+</div>
+</div>
+<div class="flex flex-1 gap-3 rounded-lg border border-primary/20 dark:border-primary/30 bg-background-light dark:bg-background-dark p-4 flex-col">
+<span class="material-symbols-outlined text-primary text-3xl">cruelty_free</span>
+<div class="flex flex-col gap-1">
+<h2 class="text-[#181113] dark:text-white text-base font-bold leading-tight">Cruelty-Free</h2>
+<p class="text-[#89616b] dark:text-gray-400 text-sm font-normal leading-normal">We are proud to be a cruelty-free brand. None of our products or ingredients are ever tested on animals.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- CTA Section -->
+<div class="my-16 px-4 py-12 bg-primary/20 dark:bg-primary/30 rounded-xl">
+<div class="flex flex-col items-center justify-center text-center gap-6">
+<h2 class="text-2xl font-bold text-[#181113] dark:text-white">Ready to Transform Your Skin?</h2>
+<p class="text-[#181113] dark:text-gray-300 max-w-xl">Experience the difference that clean, nature-infused skincare can make. Explore our collection and find your new beauty essentials.</p>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Discover Our Collection</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

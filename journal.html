@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Journal Page</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:opsz,wght,SOFT,WONK@9..144,100..900,100,1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Unbounded:wght@200..900&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+	
+		  :root {
+            /* Palette - Bold, Editorial Pink */
+            --c-bg-light: #FFF0F3;
+            --c-bg-dark: #FFDEE6;
+            --c-plum-dark: #3D0D1F; /* Text Primary */
+            --c-plum-light: #5C2A3B; /* Text Secondary */
+            --c-raspberry: #D62F58; /* Accent/CTA */
+            --c-raspberry-hover: #B01E40;
+            --c-blush: #FFC2CF;
+            --c-white: #FFFFFF;
+            
+            /* Dimensions & Spacing */
+            --nav-height: 80px;
+            --container-width: 1280px;
+            --border-radius-pill: 100px;
+            
+            /* Easing */
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+		
+		.logo-color {
+color: #ee2b5b;
+}
+
+        body {
+            font-family: 'Unbounded', sans-serif;
+            background-color: var(--c-bg-light);
+            color: var(--c-plum-dark);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- Global Utilities --- */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius-pill);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            letter-spacing: 0.02em;
+            transition: all 0.4s var(--ease-out-expo);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Noise Texture Overlay */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+		
+
+        /* --- Header --- */
+        header {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            z-index: 100;
+            /* Glassmorphism */
+            background: rgba(255, 240, 243, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(214, 47, 88, 0.08);
+            transition: transform 0.3s ease;
+			font-family: Unbounded;
+        }
+
+        .nav-wrapper {
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Unbounded', serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            /* Font Variation Settings for personality */
+            font-variation-settings: "SOFT" 100, "WONK" 1;
+            text-transform: uppercase;
+            color: var(--c-plum-dark);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+		
+		.nav-left {
+    display: flex;
+    gap: 0.75rem; /* Уменьшили отступ между лого и текстом (было 1rem) */
+    align-items: center;
+}
+
+
+.logo-icon {
+    width: 40px;   /* Оптимальный размер логотипа */
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* Запрещает логотипу сжиматься на телефонах */
+}
+
+
+.logo-icon svg {
+    width: 100%;  /* Растягиваем SVG на весь контейнер 40x40 */
+    height: 100%;
+    object-fit: contain;
+}
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--c-plum-light);
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--c-raspberry);
+        }
+
+        /* Nav Underline Animation */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--c-raspberry);
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.4s var(--ease-out-expo);
+        }
+
+        .nav-link:hover::after {
+            transform: scaleX(1);
+        }
+
+        .btn-shop {
+            background-color: var(--c-raspberry);
+            color: var(--c-white);
+            padding: 0.75rem 1.75rem;
+            box-shadow: 0 4px 15px rgba(214, 47, 88, 0.2);
+        }
+
+        .btn-shop:hover {
+            transform: scale(1.05);
+            background-color: var(--c-raspberry-hover);
+            box-shadow: 0 6px 20px rgba(214, 47, 88, 0.3);
+        }
+		
+		/* --- Section 8: Footer --- */
+    .main-footer {
+        background-color: var(--c-plum-dark); /* Anchoring Dark Color */
+        color: #FFDEE6; /* Light pink text */
+        padding: 5rem 0 2rem 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Subtle texture for footer */
+    .footer-texture {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background-image: radial-gradient(circle at 80% 20%, #5C2A3B 0%, transparent 40%);
+        pointer-events: none;
+    }
+
+    .footer-grid {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr 1fr;
+        gap: 4rem;
+        margin-bottom: 4rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .footer-brand h3 {
+        font-family: 'Unbounded', serif;
+        font-size: 1.8rem;
+        color: var(--c-white);
+        margin-bottom: 1rem;
+        letter-spacing: -0.02em;
+    }
+
+    .footer-brand p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        opacity: 0.8;
+        max-width: 300px;
+    }
+
+    .footer-heading {
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 600;
+        color: var(--c-raspberry);
+        margin-bottom: 1.5rem;
+        display: block;
+    }
+
+    .footer-links {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .footer-link {
+        color: #FFDEE6;
+        text-decoration: none;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        width: fit-content;
+    }
+
+    .footer-link:hover {
+        color: var(--c-white);
+        transform: translateX(5px);
+        text-shadow: 0 0 10px rgba(255, 194, 207, 0.3);
+    }
+
+    .social-row {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .social-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--c-white);
+        transition: all 0.3s var(--ease-elastic);
+    }
+
+    .social-icon:hover {
+        background: var(--c-raspberry);
+        border-color: var(--c-raspberry);
+        transform: scale(1.1) rotate(5deg);
+    }
+
+    /* Footer Bottom Bar */
+    .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.85rem;
+        opacity: 0.6;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .nl-form { flex-direction: column; }
+        .nl-input { width: 100%; }
+        .btn { width: 100%; }
+        
+        .footer-grid {
+            grid-template-columns: 1fr;
+            gap: 3rem;
+        }
+        .footer-bottom {
+            flex-direction: column;
+            gap: 1rem;
+            text-align: center;
+        }
+    }
+  </style>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#800020",
+            "accent": "#FADADD",
+            "background-light": "#FCF9F9",
+            "background-dark": "#1a0d11",
+            "text-light": "#333333",
+            "text-dark": "#E0E0E0",
+            "subtle-light": "#E0E0E0",
+            "subtle-dark": "#4d4d4d"
+          },
+          fontFamily: {
+            "display": ["Unbounded", "sans-serif"]
+          },
+          borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+<div class="relative flex min-h-screen w-full flex-col">
+<!-- TopNavBar -->
+<div class="noise-overlay"></div>
+
+<header>
+        <div class="container nav-wrapper">
+<div class="nav-left">
+    <div class="logo-icon logo-color">
+        <svg fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <path d="M24 45.8096C19.6865 45.8096 15.4698 44.5305 11.8832 42.134C8.29667 39.7376 5.50128 36.3314 3.85056 32.3462C2.19985 28.361 1.76794 23.9758 2.60947 19.7452C3.451 15.5145 5.52816 11.6284 8.57829 8.5783C11.6284 5.52817 15.5145 3.45101 19.7452 2.60948C23.9758 1.76795 28.361 2.19986 32.3462 3.85057C36.3314 5.50129 39.7376 8.29668 42.134 11.8833C44.5305 15.4698 45.8096 19.6865 45.8096 24L24 24L24 45.8096Z"></path>
+        </svg>
+    </div>
+    <a href="index.html" class="logo">Квiткарня</a>
+</div>
+            
+            <nav class="nav-right">
+                <ul class="nav-links">
+                    <li><a href="ourstory.html" class="nav-link">Our Story</a></li>
+                    <li><a href="routines.html" class="nav-link">Routines</a></li>
+                    <li><a href="journal.html" class="nav-link">Journal</a></li>
+                </ul>
+                <a href="shop-all.html" class="btn btn-shop">Shop Now</a>
+                
+                <div class="mobile-menu-btn d-lg-none" style="display:none;">
+                    <span></span><span></span><span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+<main class="flex-grow">
+<!-- HeroSection -->
+<section class="container mx-auto px-4 py-8 md:py-16">
+<div class="relative flex min-h-[480px] flex-col items-center justify-center gap-6 overflow-hidden rounded-xl bg-cover bg-center bg-no-repeat p-4 text-center text-white" data-alt="A woman with glowing skin applying a beauty product in a minimalist, sunlit setting." style='background-image: linear-gradient(rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.5) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDBKTJcgBs7jwxztxdDr442HsCXU-ydWP56aociJ-ejELP5h7QepnGXVUVQNl-Gz6S9fPE_FIhg4B-8A0rywmabojYU5TjPSCWcufQjUOie18vl0J5xrZvn6UvrdA-55CQvJVNDZL5TAQzGMFgt_lTh6MKxaSE6JNzV6uf0caozt9HyUIvq2Q5J-uN4_5d4R84XB6HoWcHpJIF54gMRJcFrsGWq665wVbS0_hoEPiv9cH-XAc_xydr5g0U0L3ut4-1Nl7awFX776JU");'>
+<h1 class="text-4xl font-black leading-tight tracking-[-0.033em] md:text-6xl">The Flair Journal</h1>
+<h2 class="max-w-md text-base font-normal leading-normal md:text-lg">Your guide to clean beauty, conscious living, and radiant skin.</h2>
+</div>
+</section>
+<!-- Search & Filter Section -->
+<section class="container mx-auto px-4 pb-8">
+<div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+<!-- SearchBar -->
+<div class="w-full md:max-w-sm">
+<label class="flex h-12 w-full flex-col">
+<div class="flex h-full w-full flex-1 items-stretch rounded-lg">
+<div class="flex items-center justify-center rounded-l-lg border-y border-l border-subtle-light dark:border-subtle-dark bg-background-light dark:bg-background-dark pl-4 text-text-light/60 dark:text-text-dark/60">
+<span class="material-symbols-outlined text-2xl">search</span>
+</div>
+<input class="form-input h-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg border-y border-r border-subtle-light dark:border-subtle-dark bg-background-light dark:bg-background-dark px-4 text-base font-normal leading-normal text-text-light dark:text-text-dark placeholder:text-text-light/60 dark:placeholder:text-text-dark/60 focus:border-primary focus:outline-0 focus:ring-0 dark:focus:border-accent" placeholder="Search for topics..." value=""/>
+</div>
+</label>
+</div>
+<!-- SegmentedButtons -->
+<div class="w-full overflow-x-auto">
+<div class="flex h-12 min-w-max items-center justify-center rounded-lg bg-accent/30 dark:bg-primary/20 p-1.5">
+<label class="flex h-full grow cursor-pointer items-center justify-center overflow-hidden rounded-md px-4 has-[:checked]:bg-white has-[:checked]:text-primary has-[:checked]:shadow-sm dark:has-[:checked]:bg-background-dark text-text-light dark:text-text-dark text-sm font-medium leading-normal">
+<span class="truncate">All</span>
+<input checked="" class="invisible w-0" name="category-filter" type="radio" value="All"/>
+</label>
+<label class="flex h-full grow cursor-pointer items-center justify-center overflow-hidden rounded-md px-4 has-[:checked]:bg-white has-[:checked]:text-primary has-[:checked]:shadow-sm dark:has-[:checked]:bg-background-dark text-text-light dark:text-text-dark text-sm font-medium leading-normal">
+<span class="truncate">Skincare 101</span>
+<input class="invisible w-0" name="category-filter" type="radio" value="Skincare 101"/>
+</label>
+<label class="flex h-full grow cursor-pointer items-center justify-center overflow-hidden rounded-md px-4 has-[:checked]:bg-white has-[:checked]:text-primary has-[:checked]:shadow-sm dark:has-[:checked]:bg-background-dark text-text-light dark:text-text-dark text-sm font-medium leading-normal">
+<span class="truncate">Ingredient Spotlight</span>
+<input class="invisible w-0" name="category-filter" type="radio" value="Ingredient Spotlight"/>
+</label>
+<label class="flex h-full grow cursor-pointer items-center justify-center overflow-hidden rounded-md px-4 has-[:checked]:bg-white has-[:checked]:text-primary has-[:checked]:shadow-sm dark:has-[:checked]:bg-background-dark text-text-light dark:text-text-dark text-sm font-medium leading-normal">
+<span class="truncate">Sustainability</span>
+<input class="invisible w-0" name="category-filter" type="radio" value="Sustainability"/>
+</label>
+<label class="flex h-full grow cursor-pointer items-center justify-center overflow-hidden rounded-md px-4 has-[:checked]:bg-white has-[:checked]:text-primary has-[:checked]:shadow-sm dark:has-[:checked]:bg-background-dark text-text-light dark:text-text-dark text-sm font-medium leading-normal">
+<span class="truncate">Wellness</span>
+<input class="invisible w-0" name="category-filter" type="radio" value="Wellness"/>
+</label>
+</div>
+</div>
+</div>
+</section>
+<!-- ImageGrid -->
+<section class="container mx-auto px-4 pb-16">
+<div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+<div class="group flex cursor-pointer flex-col gap-4">
+<div class="overflow-hidden rounded-xl">
+<div class="aspect-[4/3] w-full bg-cover bg-center bg-no-repeat transition-transform duration-300 group-hover:scale-105" data-alt="Close-up of a clear skincare serum being dropped from a pipette." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBwzBn-mDvD8QN8KehwqWROa0n-NBn7_pURTSa3_lp4m3pTUR57FA8UVx77Z2I5A5x5w_ITHsbwPX8uwZ3huSpRSqxcHlP-povC-EbXWYLkDPXPncNphbJDK1vHpoa-gCqqIh0-Bfp4B6nk5pDDJXmmiGH-mcdFDUZFt2P7_mXDZ-IMRaBulT209U2_J3t3PvUUhK9tXaFc6WWhDVTt9BlXlYD2o1wqt9ilfKnAn5rNxH6Am8QnLD4jpi41E-nI8ABW55P1scrgvkk");'></div>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-sm font-semibold text-primary dark:text-accent">Ingredient Spotlight</p>
+<p class="text-lg font-bold text-text-light dark:text-text-dark">The Power of Hyaluronic Acid: A Deep Dive</p>
+<p class="text-sm leading-relaxed text-text-light/80 dark:text-text-dark/80">Discover how this hero ingredient hydrates and plumps your skin from within.</p>
+<p class="mt-1 text-sm font-bold text-primary dark:text-accent group-hover:underline">Read More</p>
+</div>
+</div>
+<div class="group flex cursor-pointer flex-col gap-4">
+<div class="overflow-hidden rounded-xl">
+<div class="aspect-[4/3] w-full bg-cover bg-center bg-no-repeat transition-transform duration-300 group-hover:scale-105" data-alt="A flat-lay of morning routine items including a cup of tea, a journal, and skincare products." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDjD44xecb05i_QwvuDAekQbDyTyoAwJWS0C8e0a9mh-4V5W-IfKW4V8-aTZxS3vFvYwAmutSKqRFVpMmeFPBAMGQd0yAJkgWyrWLDTaVGGZX2NNWhC-qxLz6CQ8iGP_TZID0jZie0Gp_271T747hlSVw___-BfpIPooa3vAmAMTyXZ1OJw4UnfFafq9N2h2khrYIg0yAsAec8iSGPCsl94gSMP3fYmyC3vfCBlqlCGSwKm_JURR5b6iZBs_u-RHaoBi7dJjHYDFYI");'></div>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-sm font-semibold text-primary dark:text-accent">Wellness</p>
+<p class="text-lg font-bold text-text-light dark:text-text-dark">5 Morning Rituals for Glowing Skin</p>
+<p class="text-sm leading-relaxed text-text-light/80 dark:text-text-dark/80">Start your day right with these simple steps for a radiant complexion.</p>
+<p class="mt-1 text-sm font-bold text-primary dark:text-accent group-hover:underline">Read More</p>
+</div>
+</div>
+<div class="group flex cursor-pointer flex-col gap-4">
+<div class="overflow-hidden rounded-xl">
+<div class="aspect-[4/3] w-full bg-cover bg-center bg-no-repeat transition-transform duration-300 group-hover:scale-105" data-alt="Hands holding fresh green leaves, symbolizing natural and sustainable ingredients." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBWsz-Z6Uvl2E4DzqXpHrRVuDFIAIrIFu7x6rDOFWFgJ9qrEZOc_739Ij_stiO6kz9OwwZj8fvXp37M9_V5pKjxYiOOMrz1NtUvinjTP3S1DOBFZyatlNRPhW_fiWdRD3yYT6M-rK7UuQb4eySylroKCoaZ7jU_xyvOGLZ9p7mBnzuhhL5YqV5AeiZbZYT0K_4eeKy-u3MffSY8Pl6p9tD-uKpr0l0thhtb5GGZOIoscWa4SyhXFI5V6f0T7KDeBbGJW8LkWe0S6x8");'></div>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-sm font-semibold text-primary dark:text-accent">Sustainability</p>
+<p class="text-lg font-bold text-text-light dark:text-text-dark">Our Commitment to Sustainable Sourcing</p>
+<p class="text-sm leading-relaxed text-text-light/80 dark:text-text-dark/80">Learn about our ethical practices and how we protect our planet.</p>
+<p class="mt-1 text-sm font-bold text-primary dark:text-accent group-hover:underline">Read More</p>
+</div>
+</div>
+<div class="group flex cursor-pointer flex-col gap-4">
+<div class="overflow-hidden rounded-xl">
+<div class="aspect-[4/3] w-full bg-cover bg-center bg-no-repeat transition-transform duration-300 group-hover:scale-105" data-alt="A minimalist bathroom shelf with a few select, clean-packaged skincare products." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC8ROJEd-LyMA8YIK6LMpMuWmRwk6Qj3o2ZnaHVorNkCpAS-dTCY3YEXhturV8Z-_7xYPJomQo3yvp88FaFKnyxhbPUqBvY_jmcZds0O5RKJaWbHzguI0flwcjBuE10GdecAPJirvbIv9LNJJ_TWGTZG_TPkpXm3Cc2EncsymI1L6fcD9AkaukQTzceDGbBA41bPk7x_aZ08KazOm2HWBaegnWERHqbLjKxs4YX-8fyOW42oaSTVIk29PnOaO9R6gmRqaetx6TN5lk");'></div>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-sm font-semibold text-primary dark:text-accent">Skincare 101</p>
+<p class="text-lg font-bold text-text-light dark:text-text-dark">How to Build a Minimalist Skincare Routine</p>
+<p class="text-sm leading-relaxed text-text-light/80 dark:text-text-dark/80">Less is more. Find out how to achieve healthy skin with fewer products.</p>
+<p class="mt-1 text-sm font-bold text-primary dark:text-accent group-hover:underline">Read More</p>
+</div>
+</div>
+<div class="group flex cursor-pointer flex-col gap-4">
+<div class="overflow-hidden rounded-xl">
+<div class="aspect-[4/3] w-full bg-cover bg-center bg-no-repeat transition-transform duration-300 group-hover:scale-105" data-alt="Slices of fresh oranges next to a bottle of Vitamin C serum." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBxfw3v24TC8CBlGUlhJvaXHd-PlX4GokrapqDPSsqgFuyP8_y5hWrvOKgJdins9ZnUDBBSjrre8PvVGGhoB8GLMZL6cFHTg_AN_3HuYN_IWfEw3pDhyzx1iijAEZlnwFiBZmBjU1cfcmTxVWUbZUBI2nHU4KJljpA3yehqcXrV3MCwLjZ6U3yRHWcsIixak6XGkh1X0EXcduZ3oxFtY7hxR-os-zL90mYMAKm-ut4diuuDWsKbuMhBjjd09icEyO5dcVYA8aB9xLc");'></div>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-sm font-semibold text-primary dark:text-accent">Ingredient Spotlight</p>
+<p class="text-lg font-bold text-text-light dark:text-text-dark">Decoding Vitamin C in Your Skincare</p>
+<p class="text-sm leading-relaxed text-text-light/80 dark:text-text-dark/80">Uncover the benefits of this powerful antioxidant for a brighter, even skin tone.</p>
+<p class="mt-1 text-sm font-bold text-primary dark:text-accent group-hover:underline">Read More</p>
+</div>
+</div>
+<div class="group flex cursor-pointer flex-col gap-4">
+<div class="overflow-hidden rounded-xl">
+<div class="aspect-[4/3] w-full bg-cover bg-center bg-no-repeat transition-transform duration-300 group-hover:scale-105" data-alt="Various facial oils in elegant glass bottles arranged on a marble surface." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAMvi7fIxuMO5ZV0Is5tvMFbOrQ8xc7Q003zE4jwVurCFdBF_D82LI9pVx8VSma-PDSRrdj9CS4b0An95H3sK-JYlvgRFeQYRPg8eYUOeaGOnyyx8yduv1r1icmv8oPXz264x51XohsdxKSnKrvRQCzosRaOKjPTVTHhabnqaHc4x0Ar7yz2vErLwHI_9MDTwdGRJ0qahuv13fdOzGOHlPMhL5YFLw43tA-PxEwQFRgLr_EaIifVi5aawFYr1c32PYC2cZH9kxEWBM");'></div>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-sm font-semibold text-primary dark:text-accent">Skincare 101</p>
+<p class="text-lg font-bold text-text-light dark:text-text-dark">The Ultimate Guide to Facial Oils</p>
+<p class="text-sm leading-relaxed text-text-light/80 dark:text-text-dark/80">Find the perfect facial oil for your skin type and concerns.</p>
+<p class="mt-1 text-sm font-bold text-primary dark:text-accent group-hover:underline">Read More</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Pagination -->
+<section class="container mx-auto flex items-center justify-center px-4 pb-16">
+<nav aria-label="Pagination" class="flex items-center gap-2">
+<button class="flex h-10 w-10 items-center justify-center rounded-lg border border-subtle-light dark:border-subtle-dark text-text-light/60 dark:text-text-dark/60">
+<span class="material-symbols-outlined text-2xl">chevron_left</span>
+</button>
+<button class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-white">1</button>
+<button class="flex h-10 w-10 items-center justify-center rounded-lg text-text-light hover:bg-accent/30 dark:text-text-dark dark:hover:bg-primary/20">2</button>
+<button class="flex h-10 w-10 items-center justify-center rounded-lg text-text-light hover:bg-accent/30 dark:text-text-dark dark:hover:bg-primary/20">3</button>
+<span class="text-text-light/60 dark:text-text-dark/60">...</span>
+<button class="flex h-10 w-10 items-center justify-center rounded-lg text-text-light hover:bg-accent/30 dark:text-text-dark dark:hover:bg-primary/20">8</button>
+<button class="flex h-10 w-10 items-center justify-center rounded-lg border border-subtle-light dark:border-subtle-dark text-text-light hover:bg-accent/30 dark:text-text-dark dark:hover:bg-primary/20">
+<span class="material-symbols-outlined text-2xl">chevron_right</span>
+</button>
+</nav>
+</section>
+</main>
+<!-- Footer -->
+<footer class="main-footer">
+    <div class="footer-texture"></div>
+    <div class="container">
+        
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>Квiткарня.</h3>
+                <p>DASHKA TOP.</p>
+            </div>
+
+            <div>
+                <span class="footer-heading">Explore</span>
+                <ul class="footer-links">
+                    <li><a href="#" class="footer-link">Shop All</a></li>
+                    <li><a href="#" class="footer-link">Our Story</a></li>
+                    <li><a href="#" class="footer-link">The Journal</a></li>
+                    <li><a href="#" class="footer-link">Ingredient Glossary</a></li>
+                    <li><a href="#" class="footer-link">Gift Cards</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <span class="footer-heading">Support & Connect</span>
+                <ul class="footer-links">
+                    <li><a href="#" class="footer-link">FAQ & Shipping</a></li>
+                    <li><a href="#" class="footer-link">Returns Policy</a></li>
+                    <li><a href="#" class="footer-link">Contact Us</a></li>
+                </ul>
+                
+                <div class="social-row">
+                    <a href="#" class="social-icon" aria-label="Instagram">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                    </a>
+                    <a href="#" class="social-icon" aria-label="TikTok">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                    </a>
+                    <a href="#" class="social-icon" aria-label="Pinterest">
+                         <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <span>&copy; 2025 Квiткарня Co. All rights reserved.</span>
+            <span style="display:flex; align-items:center; gap:0.5rem;">
+                Designed with <span style="color:var(--c-raspberry);">♥</span> Daria.
+            </span>
+        </div>
+
+    </div>
+</footer>
+</div>
+</body></html>

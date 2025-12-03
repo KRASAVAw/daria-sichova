@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Routines Page - Квiткарня</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:opsz,wght,SOFT,WONK@9..144,100..900,100,1&family=Unbounded:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Unbounded:wght@200..900&display=swap" rel="stylesheet">
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ee2b5b",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#221015",
+                        "soft-pink": "#FADADD",
+                        "deep-maroon": "#800020",
+                        "off-white": "#FEFBF6",
+                        "charcoal-grey": "#36454F",
+                    },
+                    fontFamily: {
+                        "display": ["Unbounded", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+
+/* --- Section 8: Footer --- */
+    .main-footer {
+        background-color: var(--c-plum-dark); /* Anchoring Dark Color */
+        color: #FFDEE6; /* Light pink text */
+        padding: 5rem 0 2rem 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Subtle texture for footer */
+    .footer-texture {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background-image: radial-gradient(circle at 80% 20%, #5C2A3B 0%, transparent 40%);
+        pointer-events: none;
+    }
+
+    .footer-grid {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr 1fr;
+        gap: 4rem;
+        margin-bottom: 4rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .footer-brand h3 {
+        font-family: 'Unbounded', serif;
+        font-size: 1.8rem;
+        color: var(--c-white);
+        margin-bottom: 1rem;
+        letter-spacing: -0.02em;
+    }
+
+    .footer-brand p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        opacity: 0.8;
+        max-width: 300px;
+    }
+
+    .footer-heading {
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 600;
+        color: var(--c-raspberry);
+        margin-bottom: 1.5rem;
+        display: block;
+    }
+
+    .footer-links {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .footer-link {
+        color: #FFDEE6;
+        text-decoration: none;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        width: fit-content;
+    }
+
+    .footer-link:hover {
+        color: var(--c-white);
+        transform: translateX(5px);
+        text-shadow: 0 0 10px rgba(255, 194, 207, 0.3);
+    }
+
+    .social-row {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .social-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--c-white);
+        transition: all 0.3s var(--ease-elastic);
+    }
+
+    .social-icon:hover {
+        background: var(--c-raspberry);
+        border-color: var(--c-raspberry);
+        transform: scale(1.1) rotate(5deg);
+    }
+
+    /* Footer Bottom Bar */
+    .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.85rem;
+        opacity: 0.6;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .nl-form { flex-direction: column; }
+        .nl-input { width: 100%; }
+        .btn { width: 100%; }
+        
+        .footer-grid {
+            grid-template-columns: 1fr;
+            gap: 3rem;
+        }
+        .footer-bottom {
+            flex-direction: column;
+            gap: 1rem;
+            text-align: center;
+        }
+    }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+		
+		:root {
+            /* Palette - Bold, Editorial Pink */
+            --c-bg-light: #FFF0F3;
+            --c-bg-dark: #FFDEE6;
+            --c-plum-dark: #3D0D1F; /* Text Primary */
+            --c-plum-light: #5C2A3B; /* Text Secondary */
+            --c-raspberry: #D62F58; /* Accent/CTA */
+            --c-raspberry-hover: #B01E40;
+            --c-blush: #FFC2CF;
+            --c-white: #FFFFFF;
+            
+            /* Dimensions & Spacing */
+            --nav-height: 80px;
+            --container-width: 1280px;
+            --border-radius-pill: 100px;
+            
+            /* Easing */
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Unbounded', sans-serif;
+            background-color: var(--c-bg-light);
+            color: var(--c-plum-dark);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- Global Utilities --- */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius-pill);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            letter-spacing: 0.02em;
+            transition: all 0.4s var(--ease-out-expo);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Noise Texture Overlay */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* --- Header --- */
+        header {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            z-index: 100;
+            /* Glassmorphism */
+            background: rgba(255, 240, 243, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(214, 47, 88, 0.08);
+            transition: transform 0.3s ease;
+			font-family: Unbounded;
+        }
+
+        .nav-wrapper {
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Unbounded', serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            /* Font Variation Settings for personality */
+            font-variation-settings: "SOFT" 100, "WONK" 1;
+            text-transform: uppercase;
+            color: var(--c-plum-dark);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+		
+		.nav-left {
+    display: flex;
+    gap: 0.75rem; /* Уменьшили отступ между лого и текстом (было 1rem) */
+    align-items: center;
+}
+
+
+.logo-icon {
+    width: 40px;   /* Оптимальный размер логотипа */
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* Запрещает логотипу сжиматься на телефонах */
+}
+
+
+.logo-icon svg {
+    width: 100%;  /* Растягиваем SVG на весь контейнер 40x40 */
+    height: 100%;
+    object-fit: contain;
+}
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--c-plum-light);
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--c-raspberry);
+        }
+
+        /* Nav Underline Animation */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--c-raspberry);
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.4s var(--ease-out-expo);
+        }
+
+        .nav-link:hover::after {
+            transform: scaleX(1);
+        }
+
+        .btn-shop {
+            background-color: var(--c-raspberry);
+            color: var(--c-white);
+            padding: 0.75rem 1.75rem;
+            box-shadow: 0 4px 15px rgba(214, 47, 88, 0.2);
+        }
+
+        .btn-shop:hover {
+            transform: scale(1.05);
+            background-color: var(--c-raspberry-hover);
+            box-shadow: 0 6px 20px rgba(214, 47, 88, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-off-white dark:bg-background-dark font-display text-charcoal-grey dark:text-off-white">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<div class="noise-overlay"></div>
+
+    <header>
+        <div class="container nav-wrapper">
+<div class="nav-left">
+    <div class="logo-icon text-primary">
+        <svg fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <path d="M24 45.8096C19.6865 45.8096 15.4698 44.5305 11.8832 42.134C8.29667 39.7376 5.50128 36.3314 3.85056 32.3462C2.19985 28.361 1.76794 23.9758 2.60947 19.7452C3.451 15.5145 5.52816 11.6284 8.57829 8.5783C11.6284 5.52817 15.5145 3.45101 19.7452 2.60948C23.9758 1.76795 28.361 2.19986 32.3462 3.85057C36.3314 5.50129 39.7376 8.29668 42.134 11.8833C44.5305 15.4698 45.8096 19.6865 45.8096 24L24 24L24 45.8096Z"></path>
+        </svg>
+    </div>
+    <a href="index.html" class="logo">Квiткарня</a>
+</div>
+            
+            <nav class="nav-right">
+                <ul class="nav-links">
+                    <li><a href="ourstory.html" class="nav-link">Our Story</a></li>
+                    <li><a href="routines.html" class="nav-link">Routines</a></li>
+                    <li><a href="journal.html" class="nav-link">Journal</a></li>
+                </ul>
+                <a href="shop-all.html" class="btn btn-shop">Shop Now</a>
+                
+                <div class="mobile-menu-btn d-lg-none" style="display:none;">
+                    <span></span><span></span><span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+<main class="flex-1 px-4 sm:px-6 lg:px-10">
+<div class="@container py-10">
+<div class="@[480px]:p-4">
+<div class="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat @[480px]:gap-8 @[480px]:rounded-xl items-center justify-center p-4" data-alt="A serene, abstract background with soft pink and maroon tones" style='background-image: linear-gradient(rgba(128, 0, 32, 0.3) 0%, rgba(54, 69, 79, 0.6) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuCp9y8tfVOfbfq-AS_qBi_rlu2S0pFsyiVKnXDBJKzISZFxYSJJBZeZBUFFJZI4u8BnOSi9FxxC2gv3C5fpCAe_KrMQmi68jd7M6wBdA2FgsZxqyRodu4U6n70XRurnpzzNGifb9i4FPjLY66IL8oIvOeA7JVWaCpfKbrgA4o0CVNsHkMBqdkpsuhtV7jbtHbPCKXI5sY8i_zFuXlSvOdJx3q0N48QONRNTHOJq8b55qlYmUMNKmadFAUoaJyKUFdGr3pvtkGRtGXI");'>
+<div class="flex flex-col gap-2 text-center max-w-2xl">
+<h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em]">
+                                    Your Journey to Radiant Skin Starts Here
+                                </h1>
+<h2 class="text-white/90 text-sm font-normal leading-normal @[480px]:text-base @[480px]:font-normal @[480px]:leading-normal">
+                                    Explore curated routines designed by experts for your unique skin concerns.
+                                </h2>
+</div>
+</div>
+</div>
+</div>
+<div class="px-4 py-6 border-y border-soft-pink dark:border-deep-maroon/50">
+<div class="flex items-center gap-3 flex-wrap">
+<span class="font-bold text-sm text-charcoal-grey dark:text-off-white">Filter by:</span>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-soft-pink/60 dark:bg-deep-maroon/30 px-3 hover:bg-soft-pink dark:hover:bg-deep-maroon/50">
+<p class="text-deep-maroon dark:text-soft-pink text-sm font-medium leading-normal">Skin Concern</p>
+<span class="material-symbols-outlined text-deep-maroon dark:text-soft-pink !text-lg">expand_more</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-soft-pink/60 dark:bg-deep-maroon/30 px-3 hover:bg-soft-pink dark:hover:bg-deep-maroon/50">
+<p class="text-deep-maroon dark:text-soft-pink text-sm font-medium leading-normal">Time of Day</p>
+<span class="material-symbols-outlined text-deep-maroon dark:text-soft-pink !text-lg">expand_more</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-1 rounded-full bg-soft-pink/60 dark:bg-deep-maroon/30 pl-3 pr-2 hover:bg-soft-pink dark:hover:bg-deep-maroon/50">
+<p class="text-deep-maroon dark:text-soft-pink text-sm font-medium leading-normal">Dryness</p>
+<span class="material-symbols-outlined text-deep-maroon dark:text-soft-pink !text-lg">close</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-1 rounded-full bg-soft-pink/60 dark:bg-deep-maroon/30 pl-3 pr-2 hover:bg-soft-pink dark:hover:bg-deep-maroon/50">
+<p class="text-deep-maroon dark:text-soft-pink text-sm font-medium leading-normal">Oiliness</p>
+<span class="material-symbols-outlined text-deep-maroon dark:text-soft-pink !text-lg">close</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-1 rounded-full bg-soft-pink/60 dark:bg-deep-maroon/30 pl-3 pr-2 hover:bg-soft-pink dark:hover:bg-deep-maroon/50">
+<p class="text-deep-maroon dark:text-soft-pink text-sm font-medium leading-normal">Fine Lines</p>
+<span class="material-symbols-outlined text-deep-maroon dark:text-soft-pink !text-lg">close</span>
+</button>
+</div>
+</div>
+<div class="py-10">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-4">
+<div class="flex flex-col gap-4 group">
+<div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-xl overflow-hidden" data-alt="A woman with glowing skin, surrounded by plants." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCF1CgTkBvpeX29dkqOHXjIcW0Oaz-M8vK20U5IJ_QzXTYRMS2tHcdjs81oilgYMF0ZmU8x6tyAqQF8LEizG1H7kQG1DG8IZoDo4F-D0TsSma6xz5qzyUgDvTl3pZyb3eXYNN9oj8LYdjufjv20s0DKlG4dwRsjmVR8J72qSWMAz7ojIN2kcFw9noDzEWbS15D6-pFKrzsI0ZFBuYIavhLCn_TOkihMWd85AUr61takA6A0oIgV7KwyHUvY_14zodPyy9_gZrYk4nk");'></div>
+<div class="flex flex-col gap-2">
+<p class="text-deep-maroon dark:text-soft-pink text-sm font-medium leading-normal bg-soft-pink dark:bg-deep-maroon/50 px-2 py-1 rounded-full self-start">Hydration</p>
+<p class="text-charcoal-grey dark:text-off-white text-xl font-bold leading-normal">The Glow-Up Routine</p>
+<p class="text-charcoal-grey/80 dark:text-off-white/80 text-sm font-normal leading-normal">A 5-step routine for boosting hydration and achieving a dewy look.</p>
+<a class="text-deep-maroon dark:text-soft-pink text-sm font-bold leading-normal mt-2 group-hover:underline" href="#">View Routine <span class="material-symbols-outlined !text-sm align-middle">arrow_forward</span></a>
+</div>
+</div>
+<div class="flex flex-col gap-4 group">
+<div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-xl" data-alt="Close up of a skincare product texture on a clean surface." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuALl9ynKihammRWYuAvTL7VFndZvhYUi6GX9yP7O53DVl6EDQGOUFiiI06eTy8WZ6liL5AS3BCqRvDM7516vMhemUz-mLLkHDT-Nvtu9ulxG_-c5uaKHFloZyu8o11tsO3KFtSxloCKAJq1A_WoAAJ42sGlgFCbKpLJzqqELN8qsEV4Gq313IqfInEARLc6ub5VT9uYp8XCrxOV2jsmklopUwG2WcYzXVYb68Knr1WwPg-EgEaaYsA8bP1Fzqk95f96HRFAVRyERXo");'></div>
+<div class="flex flex-col gap-2">
+<p class="text-deep-maroon dark:text-soft-pink text-sm font-medium leading-normal bg-soft-pink dark:bg-deep-maroon/50 px-2 py-1 rounded-full self-start">Acne-Prone</p>
+<p class="text-charcoal-grey dark:text-off-white text-xl font-bold leading-normal">Acne-Control Essentials</p>
+<p class="text-charcoal-grey/80 dark:text-off-white/80 text-sm font-normal leading-normal">A targeted regimen to calm breakouts and prevent future blemishes.</p>
+<a class="text-deep-maroon dark:text-soft-pink text-sm font-bold leading-normal mt-2 group-hover:underline" href="#">View Routine <span class="material-symbols-outlined !text-sm align-middle">arrow_forward</span></a>
+</div>
+</div>
+<div class="flex flex-col gap-4 group">
+<div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-xl" data-alt="A mature woman smiling, showing her healthy, radiant skin." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCMBBKx_0u1L2YOxQoHgPQiLOfsLaZNul2u8_fkuu6KbYh97ljcFjiNMS6CNLlj0TNmc7mFHVmX7yLq5i3JgpMFDUs5aq0zNZh7IjT9Ya4ELYI31HL0Jbnt-Bhvo27xNZ4ZWc8tNQsf_i9l4f8Mt8BNEiujmVIhz7XjcvdDyv874E-_klEftQDmf3i-rlF72_873XjPt8qw98weoc2j82y5rppVxUu-OJd5mzW3Hco3IOFQL6XdApuoIshjZGevvx1sAfgm3PfkXxI");'></div>
+<div class="flex flex-col gap-2">
+<p class="text-deep-maroon dark:text-soft-pink text-sm font-medium leading-normal bg-soft-pink dark:bg-deep-maroon/50 px-2 py-1 rounded-full self-start">Anti-Aging</p>
+<p class="text-charcoal-grey dark:text-off-white text-xl font-bold leading-normal">Age-Defy Ritual</p>
+<p class="text-charcoal-grey/80 dark:text-off-white/80 text-sm font-normal leading-normal">A powerful routine to smooth fine lines and restore youthful radiance.</p>
+<a class="text-deep-maroon dark:text-soft-pink text-sm font-bold leading-normal mt-2 group-hover:underline" href="#">View Routine <span class="material-symbols-outlined !text-sm align-middle">arrow_forward</span></a>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="main-footer">
+    <div class="footer-texture"></div>
+    <div class="container">
+        
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>Квiткарня.</h3>
+                <p>DASHKA TOP.</p>
+            </div>
+
+            <div>
+                <span class="footer-heading">Explore</span>
+                <ul class="footer-links">
+                    <li><a href="#" class="footer-link">Shop All</a></li>
+                    <li><a href="#" class="footer-link">Our Story</a></li>
+                    <li><a href="#" class="footer-link">The Journal</a></li>
+                    <li><a href="#" class="footer-link">Ingredient Glossary</a></li>
+                    <li><a href="#" class="footer-link">Gift Cards</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <span class="footer-heading">Support & Connect</span>
+                <ul class="footer-links">
+                    <li><a href="#" class="footer-link">FAQ & Shipping</a></li>
+                    <li><a href="#" class="footer-link">Returns Policy</a></li>
+                    <li><a href="#" class="footer-link">Contact Us</a></li>
+                </ul>
+                
+                <div class="social-row">
+                    <a href="#" class="social-icon" aria-label="Instagram">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                    </a>
+                    <a href="#" class="social-icon" aria-label="TikTok">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                    </a>
+                    <a href="#" class="social-icon" aria-label="Pinterest">
+                         <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <span>&copy; 2025 Квiткарня Co. All rights reserved.</span>
+            <span style="display:flex; align-items:center; gap:0.5rem;">
+                Designed with <span style="color:var(--c-raspberry);">♥</span> Daria.
+            </span>
+        </div>
+
+    </div>
+</footer>
+</div>
+</div>
+</body></html>

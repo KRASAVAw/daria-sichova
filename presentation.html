@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>КВIТКАРНЯ</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,100..900,100,1&family=Unbounded:wght@300;400;500;600&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Unbounded:wght@200..900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+    <style>
+        :root {
+            /* Changed from black to deep editorial burgundy */
+            --c-dark: #1f050a; 
+            --c-dark-2: #2d0a14;
+            --c-plum: #3D0D1F;
+            --c-accent: #E63968;
+            --c-cream: #FFF0F3;
+            --ease-expo: cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        body {
+            background-color: var(--c-dark);
+            /* Subtle gradient to avoid flat black look */
+            background-image: linear-gradient(180deg, var(--c-dark) 0%, var(--c-dark-2) 100%);
+            color: var(--c-cream);
+            font-family: 'Unbounded', sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+            -webkit-font-smoothing: antialiased;
+            cursor: none;
+        }
+
+        /* --- Typography --- */
+        .  {
+            font-family: 'Fraunces', serif;
+            font-variation-settings: "SOFT" 100, "WONK" 1;
+        }
+
+        .text-hero {
+            font-size: clamp(4rem, 10vw, 16rem);
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+            font-weight: 800;
+        }
+
+        .text-label {
+            font-family: 'Unbounded', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* --- Cursor --- */
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease, height 0.3s ease;
+        }
+        body:hover .custom-cursor.active {
+            width: 60px; height: 60px;
+        }
+
+        #webgl-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            z-index: -1; pointer-events: none; opacity: 0.8; /* More visible liquid */
+        }
+
+        .section-padding { padding: 15vh 4vw; }
+        
+        /* Reduced noise opacity for cleaner look */
+        .noise {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 9990; opacity: 0.03;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* --- Buttons --- */
+        .btn-mega {
+            font-size: clamp(2rem, 5vw, 4rem);
+            padding: 3rem 5rem;
+            border-radius: 999px;
+            border: 2px solid white;
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(5px);
+            color: white;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            z-index: 20;
+        }
+        .btn-mega:hover {
+            background: white;
+            color: var(--c-accent);
+            transform: scale(1.05);
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.2);
+        }
+
+        /* --- Section 2: Velocity List --- */
+        .velocity-item {
+            font-family: 'Fraunces', serif;
+            font-size: 8vw;
+            line-height: 1;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 2rem 0;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255,255,255,0.4);
+            transition: color 0.3s;
+            will-change: transform;
+        }
+        .velocity-item:hover {
+            color: var(--c-accent);
+            -webkit-text-stroke: 1px var(--c-accent);
+        }
+
+        /* --- Liquid Confidence --- */
+        .liquid-section { height: 100vh; overflow: hidden; position: relative; display: flex; justify-content: center; align-items: center; }
+        
+        .liquid-word { 
+            position: absolute; 
+            width: 100%; 
+            text-align: center; 
+            z-index: 1; 
+            mix-blend-mode: normal; 
+            color: var(--c-cream); 
+            /* Ensure immediately visible */
+            opacity: 1; 
+        }
+        
+        .liquid-bottle { 
+            position: absolute; 
+            height: 70vh; 
+            z-index: 10; 
+            filter: drop-shadow(0 0 60px rgba(0,0,0,0.5)); 
+            transform-origin: center bottom;
+            /* Start slightly lower to not block text immediately */
+            transform: translateY(10%); 
+        }
+        
+        .liquid-detail {
+            position: absolute; opacity: 0; z-index: 20;
+            background: rgba(45, 10, 20, 0.85); /* Matches new theme */
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.15); padding: 2rem; border-radius: 16px;
+            max-width: 320px; box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        /* --- Alchemy --- */
+        .alchemy-item { border-top: 1px solid rgba(255,255,255,0.1); padding: 4rem 0; transition: all 0.4s ease; cursor: pointer; position: relative; }
+        .alchemy-item:hover { padding-left: 2rem; background: linear-gradient(90deg, rgba(230, 57, 104, 0.1), transparent); }
+        .alchemy-item:hover .alchemy-num { color: var(--c-accent); }
+        .alchemy-bg { position: absolute; top: 0; right: 0; width: 40%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.5s ease; pointer-events: none; mix-blend-mode: lighten; }
+        
+        .horizontal-container { width: 400%; height: 100%; display: flex; }
+        .h-panel { width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; border-right: 1px solid rgba(255,255,255,0.05); }
+
+        /* --- Footer Particles --- */
+        #cta-canvas {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; pointer-events: auto;
+        }
+        
+        /* New Stagger Animation Class */
+        .stagger-in { opacity: 0; transform: translateY(20px); }
+
+    </style>
+</head>
+<body>
+
+    <div class="custom-cursor"></div>
+    <div class="noise"></div>
+    <div id="webgl-container"></div> <nav class="fixed top-0 w-full p-8 flex justify-between items-center z-50 mix-blend-difference text-white">
+        <div class="flex flex-col">
+            <div class="text-3xl   italic font-bold tracking-tighter"><a href="index.html">КВIТКАРНЯ.</a></div>
+			
+            <div class="text-[0.6rem] uppercase tracking-[0.3em] opacity-80 mt-1">Косметика • Лабораторія</div>
+        </div>
+        
+        <div class="hidden md:flex gap-12 text-sm uppercase tracking-widest font-semibold">
+            <a href="ourstory.html" class="hover:text-[#E63968] transition-colors">Наша історія</a>
+            <a href="routines.html" class="hover:text-[#E63968] transition-colors">Ритуали</a>
+            <a href="journal.html" class="hover:text-[#E63968] transition-colors">Журнал</a>
+        </div>
+        <button class="w-10 h-10 border border-white rounded-full flex items-center justify-center hover:bg-white hover:text-black transition-colors">
+            <span class="sr-only">Кошик</span>0
+        </button>
+    </nav>
+
+    <main>
+        
+        <section class="h-screen flex flex-col items-center justify-center relative overflow-hidden">
+            <div class="container mx-auto relative z-10 text-center pointer-events-none">
+                <div class="overflow-hidden mb-4">
+                    <span class="text-label text-[#E63968] tracking-[0.5em]">Косметична інженерія</span>
+                </div>
+                <h1 class="text-hero   italic leading-none mix-blend-overlay">КВIТКАРНЯ</h1>
+                <h1 class="text-6xl md:text-8xl leading-none mt-2">КОСМЕТИКА</h1>
+                
+                <div class="mt-8 max-w-xl mx-auto">
+                    <p class="text-lg text-gray-300">
+                        Шкіра, що відчуває себе безкомпромісно живою.
+                        <br><span class="text-xs uppercase tracking-widest text-[#E63968] mt-4 block">Гортайте вниз</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 overflow-hidden" id="velocity-section">
+            <div class="container mx-auto px-4">
+                <span class="text-label text-[#E63968] mb-8 block">Стандарт</span>
+                <div class="flex flex-col">
+                    <div class="velocity-item">Точність</div>
+                    <div class="velocity-item">Потужність</div>
+                    <div class="velocity-item">Чистота</div>
+                    <div class="velocity-item">Дієвість</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="liquid-trigger" class="h-[300vh] relative"> 
+            <div class="liquid-section sticky top-0 w-full h-screen overflow-hidden">
+                <div class="absolute inset-0 bg-radial-gradient from-transparent to-black opacity-0 liquid-bg transition-opacity duration-1000"></div>
+                
+                <h1 class="text-[10vw] absolute liquid-word word-top" style="top: 50%; transform: translate(0, -100%);">РІДКА</h1>
+                <h1 class="text-[10vw] absolute liquid-word word-bottom" style="top: 50%; transform: translate(0, 0%);">ВПЕВНЕНІСТЬ</h1>
+
+                <div id="bottle-3d" 
+                     class="liquid-bottle opacity-0 absolute w-full h-full flex items-center justify-center z-10"
+                     style="bottom: -20%;">
+                </div>
+                <div class="liquid-detail detail-1 left-[4%] top-[40%]">
+                    <span class="text-xs uppercase text-[#E63968] tracking-widest font-bold">Зволоження</span>
+                    <h4 class="text-3xl mt-2 text-white">Гіалуронова хвиля</h4>
+                    <p class="text-sm text-gray-300 mt-2 leading-relaxed">Мультимолекулярна вага проникає глибоко для миттєвого наповнення.</p>
+                </div>
+
+                <div class="liquid-detail detail-2 right-[4%] bottom-[30%] text-right">
+                    <span class="text-xs uppercase text-[#E63968] tracking-widest font-bold">Текстура</span>
+                    <h4 class="text-3xl   mt-2 text-white">Скляний фініш</h4>
+                    <p class="text-sm text-gray-300 mt-2 leading-relaxed">Миттєве розгладження та блюр-ефект без використання силіконів.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="horizontal-scroll" class="h-screen overflow-hidden relative">
+            <div class="horizontal-container">
+                <div class="h-panel flex-col items-start pl-20" style="background: var(--c-dark);">
+                    <span class="text-label text-[#E63968] mb-6">Методологія</span>
+                    <h2 class="text-8xl   max-w-4xl">Три кроки.<br>Жодних складнощів.</h2>
+                    <div class="mt-12 flex gap-4 text-gray-500"><span class="animate-pulse">Гортайте вправо</span> &rarr;</div>
+                </div>
+                
+                <div class="h-panel relative">
+                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1556228720-198751642f4b?q=80&w=2787&auto=format&fit=crop')] bg-cover opacity-40 mix-blend-overlay"></div>
+                    <div class="relative z-10 text-center">
+                        <div class="text-[20rem]   leading-none opacity-20 text-white mix-blend-overlay absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">01</div>
+                        <h3 class="text-6xl   mb-4">Підготовка</h3>
+                        <p class="max-w-md text-xl">Очищення без стягнутості.</p>
+                    </div>
+                </div>
+                <div class="h-panel relative" style="background: #250810;">
+                    <div class="absolute inset-0 bg-[url('https://www.tellurideglow.com/cdn/shop/articles/Skin_flooding_1_600x338.jpg')] bg-cover opacity-40 mix-blend-overlay"></div>
+                    <div class="relative z-10 text-center">
+                         <div class="text-[20rem]   leading-none opacity-20 text-white mix-blend-overlay absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">02</div>
+                        <h3 class="text-6xl   mb-4">Догляд</h3>
+                        <p class="max-w-md text-xl">Глибоке зволоження.</p>
+                    </div>
+                </div>
+                <div class="h-panel relative">
+                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1556228720-198751642f4b?q=80&w=2787&auto=format&fit=crop')] bg-cover opacity-40 mix-blend-overlay"></div>
+                    <div class="relative z-10 text-center">
+                        <div class="text-[20rem]   leading-none opacity-20 text-white mix-blend-overlay absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">03</div>
+                        <h3 class="text-6xl   mb-4">Захист</h3>
+                        <p class="max-w-md text-xl">Зафіксуйте результат.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-padding relative min-h-screen">
+            <div class="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div>
+                    <span class="text-label text-[#E63968]">Формула</span>
+                    <h2 class="text-6xl   mt-4 mb-8">Клінічно лагідна.</h2>
+                    <p class="text-gray-400 text-lg max-w-md">Кожен елемент обрано за його біосумісність та ефективність.</p>
+                </div>
+                <div class="relative" id="alchemy-list">
+                    <div class="absolute inset-0 z-0 overflow-hidden rounded-lg opacity-40">
+                         <img id="alchemy-bg-img" src="https://images.unsplash.com/photo-1629198688000-71f23e745b6e?q=80&w=2880&auto=format&fit=crop" class="w-full h-full object-cover opacity-0 transition-opacity duration-500">
+                    </div>
+                    <div class="relative z-10">
+                        <div class="alchemy-item group" data-img="https://images.unsplash.com/photo-1629198688000-71f23e745b6e?q=80&w=2880&auto=format&fit=crop">
+                            <span class="alchemy-num text-gray-600 font-mono text-sm group-hover:text-[#E63968] transition-colors">01</span>
+                            <h3 class="text-4xl   ml-4 inline-block group-hover:translate-x-4 transition-transform">Ніацинамід</h3>
+                            <p class="text-white-500 mt-2 ml-10 text-sm max-w-xs opacity-0 group-hover:opacity-100 transition-opacity">Заспокоює почервоніння.</p>
+                        </div>
+                        <div class="alchemy-item group" data-img="https://mimishop.com.ua/image/cache/data/Purito/Purito_PlainetSqualaneOil1001-800x800.jpg">
+                            <span class="alchemy-num text-gray-600 font-mono text-sm group-hover:text-[#E63968] transition-colors">02</span>
+                            <h3 class="text-4xl   ml-4 inline-block group-hover:translate-x-4 transition-transform">Сквалан</h3>
+                            <p class="text-white-500 mt-2 ml-10 text-sm max-w-xs opacity-0 group-hover:opacity-100 transition-opacity">Невагоме зволоження.</p>
+                        </div>
+                        <div class="alchemy-item group" data-img="https://primaryskin.co/cdn/shop/files/IMG_2609.jpg?v=1728202528&width=1200">
+                            <span class="alchemy-num text-gray-600 font-mono text-sm group-hover:text-[#E63968] transition-colors">03</span>
+                            <h3 class="text-4xl   ml-4 inline-block group-hover:translate-x-4 transition-transform">Кераміди</h3>
+                            <p class="text-white-500 mt-2 ml-10 text-sm max-w-xs opacity-0 group-hover:opacity-100 transition-opacity">Відновлюють бар'єр.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-padding bg-[#0f0205]">
+            <div class="text-center mb-24 relative">
+                <div class="overflow-hidden">
+                    <h2 class="text-7xl md:text-9xl font-serif text-white reveal-on-scroll">СПІЛЬНОТА</h2>
+                </div>
+                <div class="overflow-hidden">
+                    <h2 class="text-7xl md:text-9xl font-serif text-[#E63968] italic reveal-on-scroll">СЯЙВА.</h2>
+                </div>
+                <p class="mt-6 text-gray-500 uppercase tracking-widest text-sm">Приєднуйтесь до 50,000+ інших @DariaTop</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
+                
+                <div class="space-y-8 mt-0 md:mt-20 parallax-col" data-speed="0.2">
+                    <img src="https://krasavica.info/uploads/posts/2023-01/1673306670_krasavica-info-p-milli-bobbi-braun-aktrisa-krasivo-1.jpg" class="w-full aspect-[4/5] object-cover grayscale hover:grayscale-0 transition-all duration-500 rounded-sm cursor-none">
+                    
+                    <div class="w-full aspect-square bg-[#1a050b] border border-white/10 p-8 flex flex-col justify-center items-center text-center rounded-sm hover:border-[#E63968] transition-colors duration-500 group">
+                        <div class="text-[#E63968] text-xs tracking-[0.3em] mb-4 opacity-70 group-hover:opacity-100">★★★★★</div>
+                        <p class="font-serif text-xl italic text-gray-200 leading-relaxed">
+                            "Моя шкіра ніколи не виглядала такою наповненою. Це справжня магія."
+                        </p>
+                        <span class="mt-6 text-[0.6rem] uppercase tracking-widest text-gray-500">— Олена К.</span>
+                    </div>
+                </div>
+
+                <div class="space-y-8 parallax-col" data-speed="0.5">
+                     <div class="w-full aspect-[3/4] bg-[#250810] border border-white/10 p-10 flex flex-col justify-center items-center text-center rounded-sm hover:bg-[#2d0a14] transition-colors duration-500">
+                         <p class="font-serif text-3xl md:text-4xl italic text-white leading-tight">
+                             "Єдиний догляд за шкірою, яким я справді з нетерпінням хочу користуватися."
+                         </p>
+                         <span class="mt-8 text-xs uppercase tracking-widest text-[#E63968] font-bold">— Vogue UA</span>
+                     </div>
+
+                     <img src="https://images.unsplash.com/photo-1552693673-1bf958298935?q=80&w=2946&auto=format&fit=crop" class="w-full aspect-square object-cover grayscale hover:grayscale-0 transition-all duration-500 rounded-sm cursor-none">
+                </div>
+
+                <div class="space-y-8 mt-0 md:mt-40 parallax-col" data-speed="0.3">
+                    <img src="https://images.unsplash.com/photo-1617897903246-719242758050?q=80&w=2787&auto=format&fit=crop" class="w-full aspect-square object-cover grayscale hover:grayscale-0 transition-all duration-500 rounded-sm cursor-none">
+                    
+                    <div class="w-full aspect-[4/5] bg-[#1a050b] border border-white/10 p-8 flex flex-col justify-center items-center text-center rounded-sm hover:border-[#E63968] transition-colors duration-500 group">
+                        <div class="text-[#E63968] text-xs tracking-[0.3em] mb-4 opacity-70 group-hover:opacity-100">★★★★★</div>
+                        <p class="font-serif text-xl italic text-gray-200 leading-relaxed">
+                            "Текстура просто космос. Вбирається миттєво і не залишає плівки."
+                        </p>
+                        <span class="mt-6 text-[0.6rem] uppercase tracking-widest text-gray-500">— Даша М.</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="min-h-[80vh] flex flex-col items-center justify-center relative overflow-hidden" id="mega-cta-section" style="background: #E63968;">
+            <canvas id="cta-canvas"></canvas> 
+            
+            <p class="cta-text text-white mb-8 text-sm uppercase tracking-[0.3em] font-bold relative z-20">Ваша найкраща шкіра чекає</p>
+            
+            <a href="shop-all.html" class="btn-mega cta-btn">
+                Купити колекцію
+            </a>
+            
+            <div class="mt-12 flex gap-8 text-white/60 text-sm font-medium tracking-wide relative z-20">
+                <span class="stagger-in">Безкоштовна доставка</span>
+                <span class="stagger-in">•</span>
+                <span class="stagger-in">30 днів на повернення</span>
+                <span class="stagger-in">•</span>
+                <span class="stagger-in">Веган</span>
+            </div>
+        </section>
+
+        <footer class="py-20 border-t border-white/10 text-center relative overflow-hidden" style="background: var(--c-dark);">
+            <div class="container mx-auto relative z-10">
+                <h2 class="text-[5vw]   leading-none opacity-40 hover:opacity-100 transition-opacity duration-500 cursor-pointer"><a href="index.html">КВIТКАРНЯ.</a></h2>
+                <div class="mt-8 text-xs text-gray-700">© 2025 Квiткарня. Дизайн: Дар'я.</div>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        const initLenis = () => {
+             if (typeof Lenis !== 'undefined') {
+                const lenis = new Lenis({
+                    duration: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    smooth: true,
+                });
+                function raf(time) {
+                    lenis.raf(time);
+                    requestAnimationFrame(raf);
+                }
+                requestAnimationFrame(raf);
+            }
+        };
+
+        const initCursor = () => {
+            const cursor = document.querySelector('.custom-cursor');
+            document.addEventListener('mousemove', (e) => {
+                gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1, ease: "power2.out" });
+            });
+            const interactives = document.querySelectorAll('a, button, .alchemy-item, .velocity-item');
+            interactives.forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('active'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+            });
+        };
+
+        // --- LIQUID WAVE 3D BACKGROUND ---
+        const initThreeJS = () => {
+            const container = document.getElementById('webgl-container');
+            const scene = new THREE.Scene();
+
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            container.appendChild(renderer.domElement);
+
+            // Create a plane of particles that undulates
+            const geometry = new THREE.BufferGeometry();
+            const count = 4000;
+            const positions = new Float32Array(count * 3);
+            const originalY = new Float32Array(count); // Store original Y for wave math
+
+            for(let i = 0; i < count; i++) {
+                const x = (Math.random() - 0.5) * 60;
+                const z = (Math.random() - 0.5) * 40; // Depth
+                const y = (Math.random() - 0.5) * 20;
+                
+                positions[i*3] = x;
+                positions[i*3+1] = y;
+                positions[i*3+2] = z;
+                originalY[i] = y;
+            }
+            
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            const material = new THREE.PointsMaterial({
+                size: 0.08,
+                color: 0xE63968,
+                transparent: true,
+                opacity: 0.7,
+                blending: THREE.AdditiveBlending
+            });
+            const particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+
+            // Flying Object (The Sticky Element)
+            const objGeo = new THREE.IcosahedronGeometry(4, 1);
+            const objMat = new THREE.MeshBasicMaterial({ color: 0xFFF0F3, wireframe: true, opacity: 0.15, transparent: true });
+            const flyingObj = new THREE.Mesh(objGeo, objMat);
+            scene.add(flyingObj);
+
+            camera.position.z = 30;
+
+            let mouseX = 0, mouseY = 0;
+            let time = 0;
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX / window.innerWidth - 0.5;
+                mouseY = e.clientY / window.innerHeight - 0.5;
+            });
+
+            function animate() {
+                requestAnimationFrame(animate);
+                time += 0.01;
+
+                // Wave Animation on Particles (Liquid Effect)
+                const positions = particles.geometry.attributes.position.array;
+                for(let i = 0; i < count; i++) {
+                    const x = positions[i*3];
+                    const z = positions[i*3+2];
+                    // Sine wave based on position and time
+                    positions[i*3+1] = originalY[i] + Math.sin(time + x * 0.2) * 1.5 + Math.cos(time + z * 0.1) * 1.5;
+                }
+                particles.geometry.attributes.position.needsUpdate = true;
+
+                // Sticky Object Logic
+                const targetX = mouseX * 12; 
+                const targetY = -mouseY * 12; 
+                flyingObj.position.x += (targetX - flyingObj.position.x) * 0.05;
+                flyingObj.position.y += (targetY - flyingObj.position.y) * 0.05;
+                flyingObj.rotation.x += 0.005;
+                flyingObj.rotation.y += 0.005;
+
+                // Subtle camera movement
+                camera.position.x += (mouseX * 2 - camera.position.x) * 0.02;
+                camera.position.y += (-mouseY * 2 - camera.position.y) * 0.02;
+                camera.lookAt(scene.position);
+
+                renderer.render(scene, camera);
+            }
+            animate();
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        };
+
+        // --- CTA Particle System ---
+        const initCtaParticles = () => {
+            const canvas = document.getElementById('cta-canvas');
+            const ctx = canvas.getContext('2d');
+            let width, height;
+            let particles = [];
+            let mouse = { x: -1000, y: -1000 };
+
+            const resize = () => {
+                width = canvas.width = canvas.parentElement.offsetWidth;
+                height = canvas.height = canvas.parentElement.offsetHeight;
+                initParticles();
+            };
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.vx = (Math.random() - 0.5) * 0.5;
+                    this.vy = (Math.random() - 0.5) * 0.5;
+                    this.size = Math.random() * 2 + 1;
+                    this.baseX = this.x;
+                    this.baseY = this.y;
+                    this.density = (Math.random() * 30) + 1;
+                }
+                update() {
+                    let dx = mouse.x - this.x;
+                    let dy = mouse.y - this.y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+                    let forceDirectionX = dx / distance;
+                    let forceDirectionY = dy / distance;
+                    let maxDistance = 200; 
+                    let force = (maxDistance - distance) / maxDistance;
+                    let directionX = forceDirectionX * force * this.density;
+                    let directionY = forceDirectionY * force * this.density;
+
+                    if (distance < maxDistance) {
+                        this.x -= directionX;
+                        this.y -= directionY;
+                    } else {
+                        if (this.x !== this.baseX) {
+                            let dx = this.x - this.baseX;
+                            this.x -= dx/20;
+                        }
+                        if (this.y !== this.baseY) {
+                            let dy = this.y - this.baseY;
+                            this.y -= dy/20;
+                        }
+                    }
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    if (this.x < 0) this.x = width; if (this.x > width) this.x = 0;
+                    if (this.y < 0) this.y = height; if (this.y > height) this.y = 0;
+                }
+                draw() {
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            const initParticles = () => {
+                particles = [];
+                for (let i = 0; i < 150; i++) {
+                    particles.push(new Particle());
+                }
+            };
+
+            const animate = () => {
+                ctx.clearRect(0, 0, width, height);
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+                }
+                requestAnimationFrame(animate);
+            };
+
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                mouse.x = e.clientX - rect.left;
+                mouse.y = e.clientY - rect.top;
+            });
+            canvas.addEventListener('mouseleave', () => { mouse.x = -1000; mouse.y = -1000; });
+            window.addEventListener('resize', resize);
+            resize();
+            animate();
+        };
+
+  const initAnimations = () => {
+            // Velocity Section
+            gsap.utils.toArray('.velocity-item').forEach((item, i) => {
+                gsap.fromTo(item, 
+                    { x: i % 2 === 0 ? -50 : 50, opacity: 0 },
+                    { 
+                        x: 0, opacity: 1, 
+                        scrollTrigger: { trigger: item, start: "top 90%", end: "top 60%", scrub: 1 } 
+                    }
+                );
+            });
+            ScrollTrigger.create({
+                trigger: "#velocity-section",
+                onUpdate: (self) => {
+                    const skew = self.getVelocity() / 300;
+                    gsap.to('.velocity-item', { skewX: skew, overwrite: true, duration: 0.1 });
+                }
+            });
+
+            // Liquid Confidence
+            const liquidTl = gsap.timeline({
+                scrollTrigger: { trigger: "#liquid-trigger", start: "top top", end: "bottom bottom", scrub: 1, pin: ".liquid-section" }
+            });
+            
+            liquidTl.to('.word-top', { y: '-120%', opacity: 0.3, duration: 2, ease: "power4.out" }, "start")
+                    // Текст поднят выше (60% вместо 120%)
+                    .to('.word-bottom', { y: '60%', opacity: 0.3, duration: 2, ease: "power4.out" }, "start")
+                    
+                    // --- ВОТ ЭТА СТРОКА ВЕРНЕТ БУТЫЛКУ ---
+                    .to('#bottle-3d', { opacity: 1, duration: 2 }, "start") 
+                    // -------------------------------------
+
+                    .to('.liquid-bg', { opacity: 0.8, duration: 2 }, "start")
+                    .to('.detail-1', { opacity: 1, x: 20, duration: 1 }, "details")
+                    .to('.detail-2', { opacity: 1, x: -20, duration: 1 }, "details");
+
+            // Horizontal Scroll
+            const sections = gsap.utils.toArray('.h-panel');
+            if(window.innerWidth > 768) {
+                gsap.to(sections, {
+                    xPercent: -100 * (sections.length - 1),
+                    ease: "none",
+                    scrollTrigger: { trigger: "#horizontal-scroll", pin: true, scrub: 1, end: "+=3000" }
+                });
+            }
+
+            // Alchemy
+            const alchemyItems = document.querySelectorAll('.alchemy-item');
+            const alchemyBg = document.getElementById('alchemy-bg-img');
+            alchemyItems.forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    const newSrc = item.getAttribute('data-img');
+                    alchemyBg.style.opacity = 0; 
+                    setTimeout(() => { alchemyBg.src = newSrc; alchemyBg.style.opacity = 1; }, 200);
+                });
+            });
+
+            gsap.utils.toArray('.parallax-col').forEach(col => {
+                const speed = col.getAttribute('data-speed');
+                gsap.to(col, { y: -100 * speed, scrollTrigger: { trigger: col, start: "top bottom", end: "bottom top", scrub: true } });
+            });
+            
+            gsap.utils.toArray('.reveal-on-scroll').forEach(text => {
+                gsap.from(text, { y: 100, opacity: 0, duration: 1.5, ease: "power4.out", scrollTrigger: { trigger: text, start: "top 85%" } })
+            });
+
+            // CTA Animations
+            gsap.from('.cta-text', { y: 50, opacity: 0, letterSpacing: '0em', duration: 1.5, ease: "power3.out", scrollTrigger: { trigger: '#mega-cta-section', start: "top 70%" } });
+            gsap.from('.cta-btn', { scale: 0.8, opacity: 0, duration: 1.2, ease: "elastic.out(1, 0.7)", delay: 0.2, scrollTrigger: { trigger: '#mega-cta-section', start: "top 60%" } });
+            
+            gsap.to('.stagger-in', {
+                y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: "power2.out",
+                scrollTrigger: { trigger: '#mega-cta-section', start: "top 50%" }
+            });
+        };	
+		// --- 3D BOTTLE GENERATOR ---
+ const init3DBottle = () => {
+            const container = document.getElementById('bottle-3d');
+            if (!container) return;
+
+            // --- 1. HELPER: Create Text Label Texture (Canvas) ---
+            const createLabelTexture = () => {
+                const canvas = document.createElement('canvas');
+                const size = 1024; 
+                canvas.width = size;
+                canvas.height = size;
+                const ctx = canvas.getContext('2d');
+
+                // Прозрачный фон
+                ctx.fillStyle = 'rgba(0,0,0,0)';
+                ctx.clearRect(0, 0, size, size);
+
+                // Настройки текста
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillStyle = '#1a1a1a'; 
+
+                const centerX = size / 2;
+                let currentY = size / 3.5;
+
+
+                ctx.font = 'bold 80px "Times New Roman", serif';
+                ctx.fillText('Nécessaire', centerX, currentY); 
+                currentY += 90;
+
+                ctx.font = 'italic 55px "Times New Roman", serif';
+                ctx.fillText('The Body Lotion', centerX, currentY); 
+                currentY += 65;
+                ctx.fillText('L\'Emulsion Corps', centerX, currentY);
+
+                currentY += 300;
+                ctx.font = 'bold 35px Arial, sans-serif';
+                ctx.fillText('FRAGRANCE-FREE', centerX, currentY); 
+                currentY += 50;
+                ctx.font = '30px Arial, sans-serif';
+                ctx.fillText('200 ml / 6.8 fl oz', centerX, currentY);
+
+                const texture = new THREE.CanvasTexture(canvas);
+                texture.minFilter = THREE.LinearMipMapLinearFilter; 
+                texture.needsUpdate = true;
+                return texture;
+            };
+
+            // 2. Scene Setup
+            const scene = new THREE.Scene();
+            
+            const camera = new THREE.PerspectiveCamera(45, container.offsetWidth / container.offsetHeight, 0.1, 100);
+            camera.position.z = 13; 
+            camera.position.y = 0;
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(container.offsetWidth, container.offsetHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.outputEncoding = THREE.sRGBEncoding;
+            renderer.toneMapping = THREE.ReinhardToneMapping;
+            renderer.toneMappingExposure = 1.8; 
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            container.appendChild(renderer.domElement);
+
+            // --- 3. MATERIALS ---
+            
+            const creamMaterial = new THREE.MeshStandardMaterial({
+                color: 0xF9F7F2,     
+                roughness: 0.6,      
+                metalness: 0.0,
+                side: THREE.DoubleSide
+            });
+
+            const labelMaterial = new THREE.MeshBasicMaterial({
+                map: createLabelTexture(),
+                transparent: true,
+                opacity: 1, 
+                side: THREE.DoubleSide,
+                depthWrite: false // Важно для прозрачности
+            });
+
+            const capMaterial = new THREE.MeshStandardMaterial({
+                color: 0x2d0a14,
+                roughness: 0.8,
+            });
+
+            // --- 4. GEOMETRY ---
+            const bottleGroup = new THREE.Group();
+
+            const tubeHeight = 5.2;
+            const tubeRadius = 1.3; 
+            const capHeight = 0.8;
+            const capRadius = 1.05;
+
+            // A. TUBE BODY
+            const tubeGeo = new THREE.CylinderGeometry(tubeRadius, tubeRadius, tubeHeight, 64, 64, true);
+            const posAttribute = tubeGeo.attributes.position;
+            const vertex = new THREE.Vector3();
+            for (let i = 0; i < posAttribute.count; i++) {
+                vertex.fromBufferAttribute(posAttribute, i);
+                const normalizedHeight = (vertex.y + tubeHeight / 2) / tubeHeight;
+                let flattening = Math.pow(normalizedHeight, 1.6); 
+                vertex.z = vertex.z * (1 - flattening * 0.97);
+                vertex.x = vertex.x * (1 + flattening * 0.25);
+                posAttribute.setXYZ(i, vertex.x, vertex.y, vertex.z);
+            }
+            tubeGeo.computeVertexNormals();
+            const tubeMesh = new THREE.Mesh(tubeGeo, creamMaterial);
+            tubeMesh.position.y = tubeHeight / 2; 
+            tubeMesh.castShadow = true; 
+            tubeMesh.receiveShadow = true; 
+
+            // B. LABEL (Наклейка)
+            // Используем PlaneGeometry
+            const labelGeo = new THREE.PlaneGeometry(2.4, 2.4);
+            const labelMesh = new THREE.Mesh(labelGeo, labelMaterial);
+            // Позиция: Центр тюбика по высоте, выдвинута вперед по Z
+            // tubeRadius (1.3) + немного воздуха, чтобы не проваливалась
+            labelMesh.position.set(0, 3.2, 1.32);
+            // Наклон соответствует наклону стенки тюбика (он сужается к верху)
+            labelMesh.rotation.x = -0.09; 
+            
+            // C. PARTS
+            const shoulderGeo = new THREE.SphereGeometry(tubeRadius, 64, 32, 0, Math.PI * 2, 0, Math.PI * 0.5);
+            const shoulderMesh = new THREE.Mesh(shoulderGeo, creamMaterial);
+            shoulderMesh.rotation.x = Math.PI; 
+            shoulderMesh.scale.set(1, 0.4, 1);
+            shoulderMesh.castShadow = true;
+
+            const capGeo = new THREE.CylinderGeometry(capRadius, capRadius, capHeight, 64);
+            const capMesh = new THREE.Mesh(capGeo, capMaterial);
+            capMesh.position.y = -0.2 - (capHeight / 2);
+            capMesh.castShadow = true;
+            capMesh.receiveShadow = true;
+
+            const sealGeo = new THREE.BoxGeometry(tubeRadius * 2.6, 0.12, 0.06);
+            const sealMesh = new THREE.Mesh(sealGeo, creamMaterial);
+            sealMesh.position.y = tubeHeight;
+            sealMesh.castShadow = true;
+
+            bottleGroup.add(tubeMesh);
+            bottleGroup.add(labelMesh); 
+            bottleGroup.add(shoulderMesh);
+            bottleGroup.add(capMesh);
+            bottleGroup.add(sealMesh);
+
+            bottleGroup.scale.set(0.7, 0.7, 0.7); 
+            bottleGroup.rotation.x = 0.1; 
+            bottleGroup.rotation.z = 0.05;
+
+            scene.add(bottleGroup);
+
+            // --- 5. LIGHTING ---
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+            scene.add(ambientLight);
+
+            const mainLight = new THREE.DirectionalLight(0xFFF0E0, 1.2);
+            mainLight.position.set(5, 5, 8);
+            mainLight.castShadow = true; 
+            mainLight.shadow.mapSize.width = 1024;
+            mainLight.shadow.mapSize.height = 1024;
+            scene.add(mainLight);
+
+            // Rim Light (Контровой свет)
+            const rimLight = new THREE.SpotLight(0xFFFFFF, 3.0); 
+            rimLight.position.set(0, 8, -10); 
+            rimLight.lookAt(bottleGroup.position);
+            scene.add(rimLight);
+
+            // --- 6. ANIMATION ---
+            if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                 gsap.to(bottleGroup.rotation, {
+                    y: Math.PI * 2, 
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: "#liquid-trigger", 
+                        start: "top top",
+                        end: "bottom bottom",
+                        scrub: 1 
+                    }
+                });
+            }
+
+            let time = 0;
+            const yOffset = 0.9; 
+            const animate = () => {
+                requestAnimationFrame(animate);
+                time += 0.005;
+                bottleGroup.position.y = yOffset + Math.sin(time) * 0.06;
+                renderer.render(scene, camera);
+            };
+            animate();
+
+            window.addEventListener('resize', () => {
+                const width = container.offsetWidth;
+                const height = container.offsetHeight;
+                camera.aspect = width / height;
+                camera.updateProjectionMatrix();
+                renderer.setSize(width, height);
+            });
+        };	
+		
+		
+        window.onload = () => {
+            initLenis();
+            initThreeJS();
+            initCtaParticles();
+            initCursor();
+            init3DBottle();
+            initAnimations();
+        };
+    </script>
+</body>
+</html>
